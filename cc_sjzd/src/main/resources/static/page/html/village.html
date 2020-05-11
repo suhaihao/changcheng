@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>后台中心</title>
+    <link rel="stylesheet" type="text/css" href="/page/css/index.css" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"></head>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/page/js/jquery.js"></script>    
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/page/js/resize.js"></script>
+    <script src="/page/js/village.js"></script>  
+     
+   
+</head>
+
+<body>
+
+    <!-- 侧边栏，内显示版块名称 -->
+    <div class="nav-left">  
+        <div class="nav-left-logo">
+            <em>LOGO</em>
+            <b>后台中心</b>
+        </div>
+        <!-- 用框架的话可以用遍历 -->
+       <ul>
+           <li><a href=/practice/center/index>主页</a></li>
+           <li><span class="nav-left-span" onclick="showVillage()">文明实践中心</span></li>      
+       </ul>
+
+    </div>
+    <div class="main-right">
+        <div class="main-right-top">
+            <span>*****</span>
+        </div> 
+         <div class="main-right-middle main-right-middle1" >
+            <input id="main-right-middle-name" type="search" placeholder="请输入要查询的名称">
+            <button class="btn" onclick="selectByName()">查询</button>
+            <button class="btn btn-intro" onclick="addVillage()">新增</button>
+            <table class="main-right-middle-table table" id="main-right-middle-table">
+            </table>
+        </div>
+        <div class="main-right-middle main-right-middle2" >
+            <span>新增文明实践站</span>
+            <br>
+            <form class="form-horizontal" role="form" enctype="multipart/form-data" id="forms">
+                <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="center_name" placeholder="请输入名称">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">地址</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="address" placeholder="请输入地址">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">负责人</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="manager" placeholder="请输入负责人">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">电话</label>
+                    <div class="col-sm-10">
+                        <input type="tel" class="form-control" id="phone" placeholder="请输入电话">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">类型</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="type-select">
+                        </select>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="firstname" class="col-sm-2 control-label">图片</label>
+                    <div class="col-sm-10">
+                        <input type="file" accept="image/*" multiple="true" onchange="showImg(this)" class="form-control" id="imgs" placeholder="请上传图片">
+                    </div>
+                    <div class="col-sm-10" id="img">
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="lastname" class="col-sm-2 control-label">创建时间</label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control" id="create_time" placeholder="请选择创建时间">
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">简介</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="3" id="intro"></textarea>
+                     </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" onclick="add()" class="btn btn-default">确认添加</button>  
+                    </div>
+                </div>
+            </form>
+            <div class="main-right-middle2-back">
+                <button class=" btn btn-default" onclick="showCenterList()">返回</button>
+             </div>
+
+        </div>
+        <div class="main-right-bottom">
+            <p>@2020-实践中心-实践阵地
+        </div>
+
+    </div>
+    
+    
+
+</body>
+
+
+</html>

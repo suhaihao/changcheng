@@ -1,0 +1,122 @@
+
+body{
+    background-color:rgba(0, 0, 0,0.04);
+    font:sans-serif;
+    font-size:1.4rem;
+    margin:0;
+    padding:0;
+}
+/* #002140  #393D49*/
+/* 左侧导航栏样式 */
+.nav-left{
+    position: absolute;
+    background-color: #001529;
+    width:17%; 
+    height:100%;
+    float:left;
+    bottom:0;
+    position: fixed;
+
+}
+/* 包含logo的div */
+.nav-left-logo{
+    background-color:#002140 ;
+    position:relative;
+    height:6rem;
+    line-height: 6rem;
+    text-align: center;
+    font-size:1.8rem;
+}
+/* 后台中心靠右的位置 */
+.nav-left-logo>b{
+    padding-left: 20%;
+}
+.nav-left>a{
+    text-decoration: none;
+    color:rgba(255, 255, 255, 0.65);
+}
+.nav-left>a:link{
+    color:rgba(255, 255, 255, 0.65);
+}
+/* 取消ul本身的左内间距，设置字体颜色 */
+.nav-left>ul{
+    padding-left: 0%;
+    color: rgba(255, 255, 255, 0.65);
+}
+/* 去除列表中的圆点，设置左右上下间距 */
+.nav-left>ul>li{
+    list-style: none;
+    margin:2rem 4rem;
+}
+.nav-left>ul>li:hover{
+    color:white;
+}
+/* 右侧主体样式 */
+.main-right{
+    width:83%; 
+    height:100%;
+    float:right;
+    color:rgb(114, 112, 122);
+    background-color: rgba(0, 0, 0, 0.035);
+}
+/* 右侧上边的白色栏 */
+.main-right-top{
+    height:6rem;
+    line-height: 6rem;
+    background-color: white;
+    font-size: 1.5rem;
+    padding-left:2rem ;   
+}
+/* 右侧下边的白色栏 */
+.main-right-bottom{
+    line-height:4rem;
+    position: fixed;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.055);
+    width:100%;
+}
+
+/* 实践阵地版块 */
+.practice{
+    display:none;
+    padding:2rem 2rem;
+}
+/* 新增列表样式 */
+form{  
+    margin-left: 5%;
+    margin-right:25%;
+
+}
+.main-right-middle2>span{
+    color:black;
+}
+.volunteer-middle2>span{
+    color:black;
+}
+/* 返回按钮 */ 
+.main-right-middle2-back{
+   margin-right: 25%;
+   text-align: right;
+}
+/* 加载的图片的样式 */
+.img{
+    display: none;
+    margin:3rem 15rem;
+    padding:auto;
+    background-size: cover;
+    position: relative;
+}
+.img>img{
+    position: relative;
+    width:20%;
+    height:11rem;
+    padding:1rem 1rem;
+}
+
+/* 志愿点单版块 */
+/* 实践阵地版块 */
+.volunteer{
+    /* display:none; */
+    padding:2rem 2rem;
+}
+

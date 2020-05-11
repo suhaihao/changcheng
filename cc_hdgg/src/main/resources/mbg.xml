@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+<!-- 指定数据库驱动包 -->
+  <classPathEntry location="C:\Users\guoyaoyao\.m2\repository\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar" ></classPathEntry>
+
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+  
+ <!-- 指定数据库连接参数 -->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://localhost:3308/changcheng?useUnicode=true&amp;characterEncoding=utf8"
+        userId="root"
+        password="123456">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+<!-- 指定实体类 -->
+    <javaModelGenerator targetPackage="cc.hdgg.entity" targetProject="./src/main/java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+<!-- 指定SQL定义文件XML -->
+    <sqlMapGenerator targetPackage="test.xml"  targetProject="./src/main/resources">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+<!-- 指定Mapper映射接口 -->
+    <javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="cc.hdgg.dao"  targetProject="./src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+<!-- 指定根据哪些表生成实体类、SQL定义、Mapper映射器接口 -->
+    <table tableName="activity_signup" domainObjectName="ActivitySignup" enableSelectByExample="false"
+    	enableDeleteByExample="false" enableCountByExample="false"
+    	enableUpdateByExample="false" >
+    </table> 
+
+  </context>
+</generatorConfiguration>
