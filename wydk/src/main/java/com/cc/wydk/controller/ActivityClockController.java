@@ -2,6 +2,7 @@ package com.cc.wydk.controller;
 
 import com.cc.wydk.entity.ActivityClock;
 import com.cc.wydk.request.ActivityClockGetStatusRequest;
+import com.cc.wydk.request.ActivityClockSetStatusRequest;
 import com.cc.wydk.request.ActivityClockSignInRequest;
 import com.cc.wydk.service.ActivityClockService;
 import io.swagger.annotations.Api;
@@ -30,10 +31,22 @@ public class ActivityClockController {
         return activityClockService.saveActivityClock(request);
     }
 
+    @PostMapping("/SelectByActivity")
+    @ApiOperation(value = "查找用户是否参加过活动")
+    public Boolean SelectByActivity(@RequestBody ActivityClockGetStatusRequest request) {
+        return activityClockService.getByActivityIdAndUserId(request);
+    }
+
     @PostMapping("/getStatus")
-    @ApiOperation(value = "获取该用户的的活动状态")
+    @ApiOperation(value = "获取今天该用户的活动状态")
     public ActivityClock getStatusActivityClock(@RequestBody ActivityClockGetStatusRequest request) {
-        return activityClockService.getByUserIdAndActivityId(request);
+        return activityClockService.getByUserIdAndActivityIdAndTime(request);
+    }
+
+    @PostMapping("/setUpdateStatus")
+    @ApiOperation(value = "修改签到状态接口")
+    public Boolean setUpdateStatusActivityClock(@RequestBody ActivityClockSetStatusRequest request) {
+        return activityClockService.updateActivityClock(request);
     }
 
 
