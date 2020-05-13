@@ -79,6 +79,18 @@ public class VolunteerOrder {
     @TableField(value = "update_by")
     private Integer updateBy;
 
+    @ApiModelProperty("具体内容")
+    @TableField(value = "content")
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public Integer getAge() {
         return age;
     }

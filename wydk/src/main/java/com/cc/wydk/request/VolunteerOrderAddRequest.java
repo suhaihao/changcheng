@@ -1,5 +1,6 @@
 package com.cc.wydk.request;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -30,6 +31,17 @@ public class VolunteerOrderAddRequest {
 
     @ApiModelProperty("手机号")
     private String phone;
+
+    @ApiModelProperty("具体内容")
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public Integer getAge() {
         return age;
