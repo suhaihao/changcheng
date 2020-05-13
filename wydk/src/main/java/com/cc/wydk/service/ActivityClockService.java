@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cc.wydk.entity.ActivityClock;
 import com.cc.wydk.entity.ActivityNotice;
+import com.cc.wydk.entity.User;
 import com.cc.wydk.request.*;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public interface ActivityClockService extends IService<ActivityClock> {
      * @param request
      * @return
      */
-    IPage<ActivityClock> getPageClockList(ActivityClockPageListRequest request);
+    IPage<User> getPageClockList(ActivityClockPageListRequest request);
 
     /**
      * 分页获取当前用户参与的活动

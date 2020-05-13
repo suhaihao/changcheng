@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cc.wydk.entity.ActivityClock;
 import com.cc.wydk.entity.ActivityNotice;
+import com.cc.wydk.entity.User;
 import com.cc.wydk.mapper.ActivityClockMapper;
 import com.cc.wydk.mapper.ActivityNoticeMapper;
+import com.cc.wydk.mapper.UserMapper;
 import com.cc.wydk.request.*;
 import com.cc.wydk.service.ActivityClockService;
 import org.springframework.beans.BeanUtils;
@@ -32,10 +34,13 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
 
     private final ActivityNoticeMapper activityNoticeMapper;
 
+    private final UserMapper userMapper;
+
     @Autowired
-    public ActivityClockServiceImpl(ActivityClockMapper activityClockMapper, ActivityNoticeMapper activityNoticeMapper) {
+    public ActivityClockServiceImpl(ActivityClockMapper activityClockMapper, ActivityNoticeMapper activityNoticeMapper, UserMapper userMapper) {
         this.activityClockMapper = activityClockMapper;
         this.activityNoticeMapper = activityNoticeMapper;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -101,17 +106,17 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
     }
 
     @Override
-    public IPage<ActivityClock> getPageClockList(ActivityClockPageListRequest request) {
-        Page<ActivityClock> page = new Page<>(request.getPageIndex(), request.getPageSize());
+    public IPage<User> getPageClockList(ActivityClockPageListRequest request) {
+
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
-        queryWrapper.orderByDesc("create_time");
-        //mysql分组限制改人工去重处理
-        IPage<ActivityClock> activityClockIPage = activityClockMapper.selectPage(page, queryWrapper);
-        List<ActivityClock> collect = activityClockIPage.getRecords().stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(ActivityClock::getUserId))), ArrayList::new));
-        activityClockIPage.getRecords().clear();
-        activityClockIPage.getRecords().addAll(collect);
-        return activityClockIPage;
+        queryWrapper.groupBy("user_id");
+        queryWrapper.select("user_id");
+        List<Integer> collect = activityClockMapper.selectList(queryWrapper).stream().map(ActivityClock::getUserId).collect(Collectors.toList());
+        Page<User> page = new Page<>(request.getPageIndex(), request.getPageSize());
+        QueryWrapper<User> queryWrapperUser = new QueryWrapper();
+        queryWrapperUser.in("id", collect);
+        return userMapper.selectPage(page, queryWrapperUser);
     }
 
     @Override

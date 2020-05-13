@@ -3,6 +3,7 @@ package com.cc.wydk.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.ActivityClock;
 import com.cc.wydk.entity.ActivityNotice;
+import com.cc.wydk.entity.User;
 import com.cc.wydk.request.*;
 import com.cc.wydk.service.ActivityClockService;
 import io.swagger.annotations.Api;
@@ -53,7 +54,7 @@ public class ActivityClockController {
 
     @PostMapping("/getPageClockList")
     @ApiOperation(value = "获得当前活动的所有报名人")
-    public IPage<ActivityClock> getPageClockList(@RequestBody ActivityClockPageListRequest request) {
+    public IPage<User> getPageClockList(@RequestBody ActivityClockPageListRequest request) {
         return activityClockService.getPageClockList(request);
     }
 
