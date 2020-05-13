@@ -15,49 +15,45 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
-@ApiModel("用户表")
-@TableName("user")
-public class User {
+@ApiModel("支援点单记录表")
+@TableName("volunteer_order")
+public class VolunteerOrder {
 
     @ApiModelProperty("唯一id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty("昵称")
-    @TableField(value = "nickname")
-    private String nickname;
-
-    @ApiModelProperty("姓名")
-    @TableField(value = "fullname")
-    private String fullname;
-
-    @ApiModelProperty("手机号")
-    @TableField(value = "phone")
-    private String phone;
-
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty("生日")
-    @TableField(value = "born_date")
-    private LocalDateTime bornDate;
-
-    @ApiModelProperty("性别")
-    @TableField(value = "sex")
-    private String sex;
-
-    @ApiModelProperty("年龄")
-    @TableField(value = "grade")
-    private String grade;
+    @ApiModelProperty("标题")
+    @TableField(value = "title")
+    private String title;
 
     @ApiModelProperty("地址")
     @TableField(value = "address")
     private String address;
 
-    @ApiModelProperty("头像")
-    @TableField(value = "head_img")
-    private String headImg;
+    @ApiModelProperty("类型")
+    @TableField(value = "type")
+    private String type;
+
+    @ApiModelProperty("连接")
+    @TableField(value = "link")
+    private String link;
+
+    @ApiModelProperty("用户id")
+    @TableField(value = "user_id")
+    private Integer userId;
+
+    @ApiModelProperty("年龄")
+    @TableField(value = "age")
+    private Integer age;
+
+    @ApiModelProperty("姓名")
+    @TableField(value = "name")
+    private String name;
+
+    @ApiModelProperty("手机号")
+    @TableField(value = "phone")
+    private String phone;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -83,28 +79,20 @@ public class User {
     @TableField(value = "update_by")
     private Integer updateBy;
 
-    public Integer getId() {
-        return id;
+    public Integer getAge() {
+        return age;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getName() {
+        return name;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhone() {
@@ -115,28 +103,28 @@ public class User {
         this.phone = phone;
     }
 
-    public LocalDateTime getBornDate() {
-        return bornDate;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setBornDate(LocalDateTime bornDate) {
-        this.bornDate = bornDate;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getSex() {
-        return sex;
+    public Integer getId() {
+        return id;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getGrade() {
-        return grade;
+    public String getTitle() {
+        return title;
     }
 
-    public void setGrade(String grade) {
-        this.grade = grade;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAddress() {
@@ -147,12 +135,20 @@ public class User {
         this.address = address;
     }
 
-    public String getHeadImg() {
-        return headImg;
+    public String getType() {
+        return type;
     }
 
-    public void setHeadImg(String headImg) {
-        this.headImg = headImg;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public LocalDateTime getCreateTime() {
