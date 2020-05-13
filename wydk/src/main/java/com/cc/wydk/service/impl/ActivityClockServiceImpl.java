@@ -1,12 +1,14 @@
 package com.cc.wydk.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cc.wydk.entity.ActivityClock;
+import com.cc.wydk.entity.ActivityNotice;
 import com.cc.wydk.mapper.ActivityClockMapper;
-import com.cc.wydk.request.ActivityClockGetStatusRequest;
-import com.cc.wydk.request.ActivityClockSetStatusRequest;
-import com.cc.wydk.request.ActivityClockSignInRequest;
+import com.cc.wydk.mapper.ActivityNoticeMapper;
+import com.cc.wydk.request.*;
 import com.cc.wydk.service.ActivityClockService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +19,23 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 @Service
 public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, ActivityClock> implements ActivityClockService {
 
     private final ActivityClockMapper activityClockMapper;
 
+    private final ActivityNoticeMapper activityNoticeMapper;
+
     @Autowired
-    public ActivityClockServiceImpl(ActivityClockMapper activityClockMapper) {
+    public ActivityClockServiceImpl(ActivityClockMapper activityClockMapper, ActivityNoticeMapper activityNoticeMapper) {
         this.activityClockMapper = activityClockMapper;
+        this.activityNoticeMapper = activityNoticeMapper;
     }
 
     @Override
@@ -88,5 +98,29 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
             }
         }
         return false;
+    }
+
+    @Override
+    public IPage<ActivityClock> getPageClockList(ActivityClockPageListRequest request) {
+        Page<ActivityClock> page = new Page<>(request.getPageIndex(), request.getPageSize());
+        QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
+        queryWrapper.eq("activity_id", request.getActivityId());
+        queryWrapper.orderByDesc("create_time");
+        //mysql分组限制改人工去重处理
+        IPage<ActivityClock> activityClockIPage = activityClockMapper.selectPage(page, queryWrapper);
+        List<ActivityClock> collect = activityClockIPage.getRecords().stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(ActivityClock::getUserId))), ArrayList::new));
+        activityClockIPage.getRecords().clear();
+        activityClockIPage.getRecords().addAll(collect);
+        return activityClockIPage;
+    }
+
+    @Override
+    public List<ActivityNotice> getPageNoticeList(ActivityNoticePageListRequest request) {
+        QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
+        queryWrapper.eq("user_id", request.getUserId());
+        queryWrapper.groupBy("activity_id");
+        queryWrapper.select("activity_id");
+        List<Integer> collect = activityClockMapper.selectList(queryWrapper).stream().map(ActivityClock::getActivityId).collect(Collectors.toList());
+        return activityNoticeMapper.selectBatchIds(collect);
     }
 }
