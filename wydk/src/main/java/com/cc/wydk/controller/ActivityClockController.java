@@ -1,20 +1,21 @@
 package com.cc.wydk.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.ActivityClock;
-import com.cc.wydk.request.ActivityClockGetStatusRequest;
-import com.cc.wydk.request.ActivityClockSetStatusRequest;
-import com.cc.wydk.request.ActivityClockSignInRequest;
+import com.cc.wydk.entity.ActivityNotice;
+import com.cc.wydk.entity.User;
+import com.cc.wydk.request.*;
 import com.cc.wydk.service.ActivityClockService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/clock")
+@CrossOrigin
 @Api("活动签到接口")
 public class ActivityClockController {
 
@@ -47,6 +48,18 @@ public class ActivityClockController {
     @ApiOperation(value = "修改签到状态接口")
     public Boolean setUpdateStatusActivityClock(@RequestBody ActivityClockSetStatusRequest request) {
         return activityClockService.updateActivityClock(request);
+    }
+
+    @PostMapping("/getPageClockList")
+    @ApiOperation(value = "获得当前活动的所有报名人")
+    public IPage<User> getPageClockList(@RequestBody ActivityClockPageListRequest request) {
+        return activityClockService.getPageClockList(request);
+    }
+
+    @PostMapping("/getPageNoticeList")
+    @ApiOperation(value = "获取用户参加过的活动列表")
+    public List<ActivityNotice> getPageNoticeList(@RequestBody ActivityNoticePageListRequest request) {
+        return activityClockService.getPageNoticeList(request);
     }
 
 
