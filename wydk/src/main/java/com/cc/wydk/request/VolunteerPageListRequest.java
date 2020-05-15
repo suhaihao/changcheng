@@ -16,5 +16,8 @@ public class VolunteerPageListRequest {
     @ApiModelProperty("分页大小")
     private int pageSize = 20;
 
+    @ApiModelProperty("类型")
+    private String type;
+
 
 }
