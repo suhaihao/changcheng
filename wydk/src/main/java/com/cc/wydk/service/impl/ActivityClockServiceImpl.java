@@ -113,15 +113,6 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                     }
                 }
                 userMapper.updateById(user);
-                //更新团队积分
-                if (!StringUtils.isEmpty(user.getTeam())) {
-                    VolunteerTeam volunteerTeam = volunteerTeamMapper.selectById(Integer.valueOf(user.getTeam()));
-                    if (null != volunteerTeam) {
-                        volunteerTeam.setNumberOfServices(volunteerTeam.getNumberOfServices() + 1);
-                        volunteerTeam.setServiceDuration((int) time);
-                        volunteerTeamMapper.updateById(volunteerTeam);
-                    }
-                }
                 return true;
             }
         }
