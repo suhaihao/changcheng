@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -106,11 +107,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                 //更新用户积分
                 User user = userMapper.selectById(request.getUserId());
                 if (null != user) {
-                    if (time <= 3600) {
-                        user.setIntegral(1);
-                    } else {
-                        user.setIntegral((int) time / 60 + 1);
-                    }
+                    user.setIntegral((int) time / 60 / 60 + 1);
                 }
                 userMapper.updateById(user);
                 return true;
