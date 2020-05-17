@@ -7,24 +7,24 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cc.wydk.entity.ActivityClock;
 import com.cc.wydk.entity.ActivityNotice;
 import com.cc.wydk.entity.User;
+import com.cc.wydk.entity.VolunteerTeam;
 import com.cc.wydk.mapper.ActivityClockMapper;
 import com.cc.wydk.mapper.ActivityNoticeMapper;
 import com.cc.wydk.mapper.UserMapper;
+import com.cc.wydk.mapper.VolunteerTeamMapper;
 import com.cc.wydk.request.*;
 import com.cc.wydk.service.ActivityClockService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.beans.Transient;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,11 +36,14 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
 
     private final UserMapper userMapper;
 
+    private final VolunteerTeamMapper volunteerTeamMapper;
+
     @Autowired
-    public ActivityClockServiceImpl(ActivityClockMapper activityClockMapper, ActivityNoticeMapper activityNoticeMapper, UserMapper userMapper) {
+    public ActivityClockServiceImpl(ActivityClockMapper activityClockMapper, ActivityNoticeMapper activityNoticeMapper, UserMapper userMapper, VolunteerTeamMapper volunteerTeamMapper) {
         this.activityClockMapper = activityClockMapper;
         this.activityNoticeMapper = activityNoticeMapper;
         this.userMapper = userMapper;
+        this.volunteerTeamMapper = volunteerTeamMapper;
     }
 
     @Override
@@ -76,6 +79,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
     }
 
     @Override
+    @Transient
     public Boolean updateActivityClock(ActivityClockSetStatusRequest request) {
         LocalDateTime today_end = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
         LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
@@ -99,6 +103,25 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                 long time = duration.toMillis() / 1000;
                 activityClock.setDuration(String.valueOf(time));
                 activityClockMapper.updateById(activityClock);
+                //更新用户积分
+                User user = userMapper.selectById(request.getUserId());
+                if (null != user) {
+                    if (time <= 3600) {
+                        user.setIntegral(1);
+                    } else {
+                        user.setIntegral((int) time / 60 + 1);
+                    }
+                }
+                userMapper.updateById(user);
+                //更新团队积分
+                if (!StringUtils.isEmpty(user.getTeam())) {
+                    VolunteerTeam volunteerTeam = volunteerTeamMapper.selectById(Integer.valueOf(user.getTeam()));
+                    if (null != volunteerTeam) {
+                        volunteerTeam.setNumberOfServices(volunteerTeam.getNumberOfServices() + 1);
+                        volunteerTeam.setServiceDuration((int) time);
+                        volunteerTeamMapper.updateById(volunteerTeam);
+                    }
+                }
                 return true;
             }
         }
