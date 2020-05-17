@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.entity.VolunteerOrder;
 import com.cc.wydk.request.VolunteerOrderAddRequest;
+import com.cc.wydk.request.VolunteerOrderUpdateRequest;
 import com.cc.wydk.request.VolunteerPageListRequest;
 import com.cc.wydk.service.VolunteerOrderService;
 import io.swagger.annotations.Api;
@@ -52,5 +53,12 @@ public class VolunteerOrderController {
         return volunteerOrderService.save(volunteerOrder);
     }
 
+    @PostMapping("/updateVolunteerOrder")
+    @ApiOperation(value = "支援点单修改")
+    public Boolean updateVolunteerOrder(@RequestBody VolunteerOrderUpdateRequest request) {
+        VolunteerOrder volunteerOrder = new VolunteerOrder();
+        BeanUtils.copyProperties(request, volunteerOrder);
+        return volunteerOrderService.updateById(volunteerOrder);
+    }
 
 }

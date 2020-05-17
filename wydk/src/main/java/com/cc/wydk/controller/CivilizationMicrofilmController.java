@@ -3,10 +3,7 @@ package com.cc.wydk.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.CivilizationMicrofilm;
 import com.cc.wydk.entity.CivilizedClassroom;
-import com.cc.wydk.request.CivilizationMicrofilmAddRequest;
-import com.cc.wydk.request.CivilizationMicrofilmPageListRequest;
-import com.cc.wydk.request.CivilizedClassroomAddRequest;
-import com.cc.wydk.request.CivilizedClassroomPageListRequest;
+import com.cc.wydk.request.*;
 import com.cc.wydk.service.CivilizationMicrofilmService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +42,14 @@ public class CivilizationMicrofilmController {
         civilizationMicrofilm.setCreateTime(LocalDateTime.now());
         civilizationMicrofilm.setUpdateTime(LocalDateTime.now());
         return civilizationMicrofilmService.save(civilizationMicrofilm);
+    }
+
+    @PostMapping("/updateCivilizationMicrofilm")
+    @ApiOperation(value = "文明微电影数据修改")
+    public Boolean updateCivilizationMicrofilm(@RequestBody CivilizationMicrofilmUpdateRequest request) {
+        CivilizationMicrofilm civilizationMicrofilm = new CivilizationMicrofilm();
+        BeanUtils.copyProperties(request, civilizationMicrofilm);
+        return civilizationMicrofilmService.updateById(civilizationMicrofilm);
     }
 
 }
