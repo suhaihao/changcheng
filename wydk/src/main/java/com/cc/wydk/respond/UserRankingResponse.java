@@ -1,9 +1,6 @@
-package com.cc.wydk.entity;
+package com.cc.wydk.respond;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -15,24 +12,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
-@ApiModel("用户表")
-@TableName("user")
-public class User {
+@ApiModel("用户排行返回体")
+public class UserRankingResponse {
+
+    @ApiModelProperty("排行")
+    private Integer rowNum;
 
     @ApiModelProperty("唯一id")
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @ApiModelProperty("昵称")
-    @TableField(value = "nickname")
     private String nickname;
 
     @ApiModelProperty("姓名")
-    @TableField(value = "fullname")
     private String fullname;
 
     @ApiModelProperty("手机号")
-    @TableField(value = "phone")
     private String phone;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -40,23 +35,18 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty("生日")
-    @TableField(value = "born_date")
     private LocalDateTime bornDate;
 
     @ApiModelProperty("性别")
-    @TableField(value = "sex")
     private String sex;
 
     @ApiModelProperty("年龄")
-    @TableField(value = "grade")
     private String grade;
 
     @ApiModelProperty("地址")
-    @TableField(value = "address")
     private String address;
 
     @ApiModelProperty("头像")
-    @TableField(value = "head_img")
     private String headImg;
 
     @ApiModelProperty("积分")
@@ -72,11 +62,9 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty("创建时间")
-    @TableField(value = "create_time")
     private LocalDateTime createTime;
 
     @ApiModelProperty("创建人")
-    @TableField(value = "create_by")
     private Integer createBy;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -84,11 +72,9 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty("修改时间")
-    @TableField(value = "update_time")
     private LocalDateTime updateTime;
 
     @ApiModelProperty("修改人")
-    @TableField(value = "update_by")
     private Integer updateBy;
 
     public Integer getIntegral() {
@@ -105,6 +91,14 @@ public class User {
 
     public void setTeam(String team) {
         this.team = team;
+    }
+
+    public Integer getRowNum() {
+        return rowNum;
+    }
+
+    public void setRowNum(Integer rowNum) {
+        this.rowNum = rowNum;
     }
 
     public Integer getId() {
