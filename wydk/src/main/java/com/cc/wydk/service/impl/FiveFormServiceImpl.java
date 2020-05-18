@@ -10,6 +10,7 @@ import com.cc.wydk.request.FiveFormPageListRequest;
 import com.cc.wydk.service.FiveFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class FiveFormServiceImpl extends ServiceImpl<FiveFormMapper, FiveForm> implements FiveFormService {
@@ -27,6 +28,9 @@ public class FiveFormServiceImpl extends ServiceImpl<FiveFormMapper, FiveForm> i
     public IPage<FiveForm> getPageList(FiveFormPageListRequest request) {
         Page<FiveForm> page = new Page<>(request.getPageIndex(), request.getPageSize());
         QueryWrapper<FiveForm> queryWrapperUser = new QueryWrapper();
+        if (!StringUtils.isEmpty(request.getType())) {
+            queryWrapperUser.eq("type", request.getType());
+        }
         queryWrapperUser.orderByDesc("create_time");
         return fiveFormMapper.selectPage(page, queryWrapperUser);
     }
