@@ -139,4 +139,11 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         List<Integer> collect = activityClockMapper.selectList(queryWrapper).stream().map(ActivityClock::getActivityId).collect(Collectors.toList());
         return activityNoticeMapper.selectBatchIds(collect);
     }
+
+    @Override
+    public Integer getCount(Integer userId) {
+        QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        return activityClockMapper.selectCount(queryWrapper);
+    }
 }

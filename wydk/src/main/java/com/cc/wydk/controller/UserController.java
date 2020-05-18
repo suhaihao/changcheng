@@ -7,6 +7,7 @@ import com.cc.wydk.request.UserPageListRequest;
 import com.cc.wydk.request.UserQueryRequest;
 import com.cc.wydk.request.VolunteerOrderAddRequest;
 import com.cc.wydk.respond.UserRankingResponse;
+import com.cc.wydk.respond.UserResPonse;
 import com.cc.wydk.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +35,7 @@ public class UserController {
 
     @PostMapping("/queryUser")
     @ApiOperation(value = "获取用户信息")
-    public User saveVolunteerOrder(@Valid @RequestBody UserQueryRequest request) {
+    public UserResPonse saveVolunteerOrder(@Valid @RequestBody UserQueryRequest request) {
         return userService.getById(request);
     }
 

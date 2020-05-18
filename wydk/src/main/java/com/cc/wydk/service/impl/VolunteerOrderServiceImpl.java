@@ -55,4 +55,11 @@ public class VolunteerOrderServiceImpl extends ServiceImpl<VolunteerOrderMapper,
         queryWrapperUser.in("id", collect);
         return userMapper.selectPage(page, queryWrapperUser);
     }
+
+    @Override
+    public Integer getCount(Integer userId) {
+        QueryWrapper<VolunteerOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        return volunteerOrderMapper.selectCount(queryWrapper);
+    }
 }

@@ -8,11 +8,13 @@ import com.cc.wydk.mapper.UserMapper;
 import com.cc.wydk.request.UserPageListRequest;
 import com.cc.wydk.request.UserQueryRequest;
 import com.cc.wydk.respond.UserRankingResponse;
+import com.cc.wydk.respond.UserResPonse;
+import com.cc.wydk.service.ActivityClockService;
 import com.cc.wydk.service.UserService;
+import com.cc.wydk.service.VolunteerOrderService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
@@ -20,14 +22,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     private final UserMapper userMapper;
 
+    private final VolunteerOrderService volunteerOrderService;
+
+    private final ActivityClockService activityClockService;
+
     @Autowired
-    public UserServiceImpl(UserMapper userMapper) {
+    public UserServiceImpl(UserMapper userMapper, VolunteerOrderService volunteerOrderService, ActivityClockService activityClockService) {
         this.userMapper = userMapper;
+        this.volunteerOrderService = volunteerOrderService;
+        this.activityClockService = activityClockService;
     }
 
     @Override
-    public User getById(UserQueryRequest request) {
-        return userMapper.selectById(request.getId());
+    public UserResPonse getById(UserQueryRequest request) {
+        User user = userMapper.selectById(request.getId());
+        if (null != user) {
+            UserResPonse userResPonse = new UserResPonse();
+            BeanUtils.copyProperties(user, userResPonse);
+            Integer countOrder = volunteerOrderService.getCount(request.getId());
+            userResPonse.setOrderCount(countOrder);
+            Integer countClock = activityClockService.getCount(request.getId());
+            userResPonse.setActivitySignCount(countClock);
+            return userResPonse;
+        }
+        return null;
     }
 
     @Override

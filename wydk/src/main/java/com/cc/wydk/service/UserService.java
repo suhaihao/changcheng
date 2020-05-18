@@ -6,6 +6,7 @@ import com.cc.wydk.entity.User;
 import com.cc.wydk.request.UserPageListRequest;
 import com.cc.wydk.request.UserQueryRequest;
 import com.cc.wydk.respond.UserRankingResponse;
+import com.cc.wydk.respond.UserResPonse;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface UserService extends IService<User> {
      * @param request
      * @return
      */
-    User getById(UserQueryRequest request);
+    UserResPonse getById(UserQueryRequest request);
 
     /**
      *
