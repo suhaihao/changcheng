@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,14 +53,14 @@ public class VolunteerOrderServiceImpl extends ServiceImpl<VolunteerOrderMapper,
         queryWrapper.select("user_id");
         queryWrapper.groupBy("user_id");
         List<VolunteerOrder> volunteerOrders = volunteerOrderMapper.selectList(queryWrapper);
+        List<Integer> collect = Arrays.asList(-1);
         if (!CollectionUtils.isEmpty(volunteerOrders)) {
-            List<Integer> collect = volunteerOrders.stream().map(VolunteerOrder::getUserId).collect(Collectors.toList());
-            Page<User> page = new Page<>(request.getPageIndex(), request.getPageSize());
-            QueryWrapper<User> queryWrapperUser = new QueryWrapper();
-            queryWrapperUser.in("id", collect);
-            return userMapper.selectPage(page, queryWrapperUser);
+            collect = volunteerOrders.stream().map(VolunteerOrder::getUserId).collect(Collectors.toList());
         }
-        return null;
+        Page<User> page = new Page<>(request.getPageIndex(), request.getPageSize());
+        QueryWrapper<User> queryWrapperUser = new QueryWrapper();
+        queryWrapperUser.in("id", collect);
+        return userMapper.selectPage(page, queryWrapperUser);
     }
 
     @Override
