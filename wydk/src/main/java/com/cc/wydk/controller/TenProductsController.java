@@ -27,7 +27,7 @@ public class TenProductsController {
     }
 
 
-    @PostMapping("/getByRankingPageList")
+    @PostMapping("/getPageList")
     @ApiOperation(value = "获取十大形式分页列表")
     public IPage<TenProducts> getByPageList(@RequestBody TenProductsPageListRequest request) {
         return tenProductsService.getPageList(request);
