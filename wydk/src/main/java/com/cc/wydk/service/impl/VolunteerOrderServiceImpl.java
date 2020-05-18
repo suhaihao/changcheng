@@ -13,6 +13,7 @@ import com.cc.wydk.request.VolunteerPageListRequest;
 import com.cc.wydk.service.VolunteerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,11 +50,15 @@ public class VolunteerOrderServiceImpl extends ServiceImpl<VolunteerOrderMapper,
         }
         queryWrapper.select("user_id");
         queryWrapper.groupBy("user_id");
-        List<Integer> collect = volunteerOrderMapper.selectList(queryWrapper).stream().map(VolunteerOrder::getUserId).collect(Collectors.toList());
-        Page<User> page = new Page<>(request.getPageIndex(), request.getPageSize());
-        QueryWrapper<User> queryWrapperUser = new QueryWrapper();
-        queryWrapperUser.in("id", collect);
-        return userMapper.selectPage(page, queryWrapperUser);
+        List<VolunteerOrder> volunteerOrders = volunteerOrderMapper.selectList(queryWrapper);
+        if (!CollectionUtils.isEmpty(volunteerOrders)) {
+            List<Integer> collect = volunteerOrders.stream().map(VolunteerOrder::getUserId).collect(Collectors.toList());
+            Page<User> page = new Page<>(request.getPageIndex(), request.getPageSize());
+            QueryWrapper<User> queryWrapperUser = new QueryWrapper();
+            queryWrapperUser.in("id", collect);
+            return userMapper.selectPage(page, queryWrapperUser);
+        }
+        return null;
     }
 
     @Override
