@@ -150,10 +150,19 @@ public interface ActivityNoticeMapper {
             "select",
             "id, title, address, participate_num, total_num, contacts, phone, imgs, start_time, ",
             "end_time, create_time, create_by, update_tiem, update_by, content",
-            "from activity_notice where 1=1 and <if test='#{type} != null '>type=#{type} </if> ",
+            "from activity_notice where 1=1 and type=#{type} ",
     })
     @ResultMap("noticeMap")
-    List<ActivityNotice> selectAll(@Param(value = "type") Integer type);
+    List<ActivityNotice> selectAllByType(@Param(value = "type") Integer type);
+
+    @Select({
+            "select",
+            "id, title, address, participate_num, total_num, contacts, phone, imgs, start_time, ",
+            "end_time, create_time, create_by, update_tiem, update_by, content",
+            "from activity_notice",
+    })
+    @ResultMap("noticeMap")
+    List<ActivityNotice> selectAll();
 
 
     //根据名称模糊查询

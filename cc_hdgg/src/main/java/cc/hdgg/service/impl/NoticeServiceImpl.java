@@ -34,7 +34,12 @@ public class NoticeServiceImpl implements NoticeService {
         PracResult result = new PracResult();
         String orderBy = orderField + " " + orderSeq;
         PageHelper.startPage(page, size, orderBy);
-        List<ActivityNotice> noticeLists = noticeDao.selectAll(type);
+        List<ActivityNotice> noticeLists = null;
+        if (null != type) {
+            noticeLists = noticeDao.selectAllByType(type);
+        } else {
+            noticeLists = noticeDao.selectAll();
+        }
         result.setCode(PracConstant.SUCCESS);
         result.setMsg(PracConstant.QUERY_SUCCESS);
         result.setPage(page);
@@ -134,7 +139,6 @@ public class NoticeServiceImpl implements NoticeService {
     /**
      * 根据名称模糊查询
      *
-     * @param name 名称
      * @return 信息类
      */
     @Override
