@@ -25,7 +25,7 @@ public class NoticeController {
     public PracResult selectAll(
             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size,
-            @RequestParam(name = "type", required = false) int type,
+            @RequestParam(name = "type") int type,
             @RequestParam(name = "orderField", required = false, defaultValue = "id") String orderField,
             @RequestParam(name = "orderSeq", required = false, defaultValue = "desc") String orderSeq) {
         PracResult result = noticeService.selectAll(page, size, type, orderField, orderSeq);
