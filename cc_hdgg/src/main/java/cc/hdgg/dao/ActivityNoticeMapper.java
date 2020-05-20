@@ -148,7 +148,7 @@ public interface ActivityNoticeMapper {
     //查询所有活动公告的方法  
     @Select({
             "select",
-            "id, title, address, participate_num, total_num, contacts, phone, imgs, start_time, ",
+            "id, title, address, participate_num, total_num, contacts, phone, imgs, start_time,type, ",
             "end_time, create_time, create_by, update_tiem, update_by, content",
             "from activity_notice where 1=1 and type=#{type} ",
     })
@@ -157,7 +157,7 @@ public interface ActivityNoticeMapper {
 
     @Select({
             "select",
-            "id, title, address, participate_num, total_num, contacts, phone, imgs, start_time, ",
+            "id, title, address, participate_num, total_num, contacts, phone, imgs, start_time,type, ",
             "end_time, create_time, create_by, update_tiem, update_by, content",
             "from activity_notice",
     })
