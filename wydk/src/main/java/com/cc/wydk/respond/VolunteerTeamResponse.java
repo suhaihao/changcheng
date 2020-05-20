@@ -1,9 +1,5 @@
 package com.cc.wydk.respond;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -45,6 +41,9 @@ public class VolunteerTeamResponse {
     @ApiModelProperty("团队名称")
     private String teamName;
 
+    @ApiModelProperty("团队人数")
+    private Integer teamCount;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -64,6 +63,14 @@ public class VolunteerTeamResponse {
 
     @ApiModelProperty("修改人")
     private String updateBy;
+
+    public Integer getTeamCount() {
+        return teamCount;
+    }
+
+    public void setTeamCount(Integer teamCount) {
+        this.teamCount = teamCount;
+    }
 
     public Integer getRowNum() {
         return rowNum;
