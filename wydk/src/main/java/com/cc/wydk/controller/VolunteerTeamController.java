@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.entity.VolunteerOrder;
 import com.cc.wydk.entity.VolunteerTeam;
-import com.cc.wydk.request.VolunteerOrderAddRequest;
-import com.cc.wydk.request.VolunteerOrderUpdateRequest;
-import com.cc.wydk.request.VolunteerPageListRequest;
-import com.cc.wydk.request.VolunteerTeamPageListRequest;
+import com.cc.wydk.request.*;
 import com.cc.wydk.respond.VolunteerTeamResponse;
 import com.cc.wydk.service.VolunteerTeamService;
 import io.swagger.annotations.Api;
@@ -36,6 +33,12 @@ public class VolunteerTeamController {
     @ApiOperation(value = "获取团队排行")
     public IPage<VolunteerTeamResponse> getByPageList(@RequestBody VolunteerTeamPageListRequest request) {
         return volunteerTeamService.getRankingPageList(request);
+    }
+
+    @PostMapping("/getDetail")
+    @ApiOperation(value = "获取团队详情")
+    public VolunteerTeam getDetail(@RequestBody VolunteerTeamDetailRequest request) {
+        return volunteerTeamService.getById(request);
     }
 
 

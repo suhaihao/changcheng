@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cc.wydk.entity.VolunteerTeam;
 import com.cc.wydk.mapper.VolunteerTeamMapper;
+import com.cc.wydk.request.VolunteerTeamDetailRequest;
 import com.cc.wydk.request.VolunteerTeamPageListRequest;
 import com.cc.wydk.respond.UserRankingResponse;
 import com.cc.wydk.respond.VolunteerTeamResponse;
@@ -28,5 +29,10 @@ public class VolunteerTeamServiceImpl extends ServiceImpl<VolunteerTeamMapper, V
     public IPage<VolunteerTeamResponse> getRankingPageList(VolunteerTeamPageListRequest request) {
         Page<VolunteerTeamResponse> page = new Page<>(request.getPageIndex(), request.getPageSize());
         return volunteerTeamMapper.getRankingList(page);
+    }
+
+    @Override
+    public VolunteerTeam getById(VolunteerTeamDetailRequest request) {
+        return volunteerTeamMapper.selectById(request.getId());
     }
 }

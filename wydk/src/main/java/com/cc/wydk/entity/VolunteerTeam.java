@@ -51,6 +51,14 @@ public class VolunteerTeam {
     @TableField(value = "team_name")
     private String teamName;
 
+    @ApiModelProperty("队伍标语")
+    @TableField(value = "team_slogan")
+    private String teamSlogan;
+
+    @ApiModelProperty("队伍介绍")
+    @TableField(value = "team_intro")
+    private String teamIntro;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -74,6 +82,22 @@ public class VolunteerTeam {
     @ApiModelProperty("修改人")
     @TableField(value = "update_by")
     private String updateBy;
+
+    public String getTeamSlogan() {
+        return teamSlogan;
+    }
+
+    public void setTeamSlogan(String teamSlogan) {
+        this.teamSlogan = teamSlogan;
+    }
+
+    public String getTeamIntro() {
+        return teamIntro;
+    }
+
+    public void setTeamIntro(String teamIntro) {
+        this.teamIntro = teamIntro;
+    }
 
     public Integer getId() {
         return id;
