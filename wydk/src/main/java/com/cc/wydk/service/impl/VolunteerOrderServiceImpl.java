@@ -1,5 +1,6 @@
 package com.cc.wydk.service.impl;
 
+import com.alipay.api.internal.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,8 +34,8 @@ public class VolunteerOrderServiceImpl extends ServiceImpl<VolunteerOrderMapper,
     public IPage<VolunteerOrder> getByPageList(VolunteerPageListRequest request) {
         Page<VolunteerOrder> page = new Page<>(request.getPageIndex(), request.getPageSize());
         QueryWrapper<VolunteerOrder> queryWrapperUser = new QueryWrapper();
-        if(!StringUtils.isEmpty(request.getType)){
-            queryWrapper.eq("type", request.getType);
+        if (!StringUtils.isEmpty(request.getType())) {
+            queryWrapperUser.eq("type", request.getType());
         }
         queryWrapperUser.orderByDesc("create_time");
         return volunteerOrderMapper.selectPage(page, queryWrapperUser);

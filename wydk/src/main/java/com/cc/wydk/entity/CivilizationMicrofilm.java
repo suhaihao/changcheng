@@ -34,6 +34,11 @@ public class CivilizationMicrofilm {
   @TableField(value = "link")
   private String link;
 
+  @ApiModelProperty("图片")
+  @TableField(value = "img")
+  private String img;
+
+
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -57,6 +62,14 @@ public class CivilizationMicrofilm {
   @ApiModelProperty("修改人")
   @TableField(value = "update_by")
   private Integer updateBy;
+
+  public String getImg() {
+    return img;
+  }
+
+  public void setImg(String img) {
+    this.img = img;
+  }
 
   public Integer getId() {
     return id;

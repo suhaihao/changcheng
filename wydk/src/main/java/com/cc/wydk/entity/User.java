@@ -11,13 +11,22 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Set;
 
+@Data
+@EqualsAndHashCode(callSuper = false)
 @ApiModel("用户表")
 @TableName("user")
-public class User {
+public class User implements UserDetails, Serializable {
 
     @ApiModelProperty("唯一id")
     @TableId(value = "id", type = IdType.AUTO)
@@ -83,107 +92,45 @@ public class User {
     @TableField(value = "update_by")
     private Integer updateBy;
 
-    public Integer getId() {
-        return id;
+    @ApiModelProperty("密码")
+    @TableField(value = "password")
+    private String password;
+
+    @ApiModelProperty("权限集合")
+    @TableField(exist = false)
+    private Set<? extends GrantedAuthority> authorities;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAuthorities(Set<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getPhone() {
+    @Override
+    public String getUsername() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public LocalDateTime getBornDate() {
-        return bornDate;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setBornDate(LocalDateTime bornDate) {
-        this.bornDate = bornDate;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getHeadImg() {
-        return headImg;
-    }
-
-    public void setHeadImg(String headImg) {
-        this.headImg = headImg;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(Integer createBy) {
-        this.createBy = createBy;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(Integer updateBy) {
-        this.updateBy = updateBy;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
