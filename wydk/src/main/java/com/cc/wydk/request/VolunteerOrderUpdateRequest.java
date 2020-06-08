@@ -3,9 +3,11 @@ package com.cc.wydk.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("志愿者下单请求体")
-public class VolunteerOrderAddRequest {
+@ApiModel("志愿者下单修改请求体")
+public class VolunteerOrderUpdateRequest {
 
+    @ApiModelProperty("唯一标识")
+    private Integer id;
 
     @ApiModelProperty("标题")
     private String title;
@@ -33,6 +35,14 @@ public class VolunteerOrderAddRequest {
 
     @ApiModelProperty("具体内容")
     private String content;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getContent() {
         return content;

@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.CivilizedClassroom;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.entity.VolunteerOrder;
-import com.cc.wydk.request.CivilizedClassroomAddRequest;
-import com.cc.wydk.request.CivilizedClassroomPageListRequest;
-import com.cc.wydk.request.VolunteerOrderAddRequest;
-import com.cc.wydk.request.VolunteerPageListRequest;
+import com.cc.wydk.request.*;
 import com.cc.wydk.service.CivilizedClassroomService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,6 +43,14 @@ public class CivilizedClassroomController {
         civilizedClassroom.setCreateTime(LocalDateTime.now());
         civilizedClassroom.setUpdateTime(LocalDateTime.now());
         return civilizedClassroomService.save(civilizedClassroom);
+    }
+
+    @PostMapping("/updateCivilizedClassroom")
+    @ApiOperation(value = "文明课堂数据修改")
+    public Boolean updateCivilizedClassroom(@RequestBody CivilizedClassroomUpdateRequest request) {
+        CivilizedClassroom civilizedClassroom = new CivilizedClassroom();
+        BeanUtils.copyProperties(request, civilizedClassroom);
+        return civilizedClassroomService.updateById(civilizedClassroom);
     }
 
 }

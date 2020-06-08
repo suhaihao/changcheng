@@ -22,4 +22,11 @@ public interface VolunteerOrderService extends IService<VolunteerOrder> {
      * @return
      */
     IPage<User> getByPageUserList(VolunteerPageListRequest request);
+
+    /**
+     * 根据用户id 获取相应数据
+     * @param userId
+     * @return
+     */
+    Integer getCount(Integer userId);
 }

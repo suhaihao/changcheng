@@ -1,6 +1,7 @@
 package com.cc.wydk.service.impl;
 
 import com.alipay.api.internal.util.StringUtils;
+import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -13,7 +14,10 @@ import com.cc.wydk.request.VolunteerPageListRequest;
 import com.cc.wydk.service.VolunteerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,12 +48,26 @@ public class VolunteerOrderServiceImpl extends ServiceImpl<VolunteerOrderMapper,
     @Override
     public IPage<User> getByPageUserList(VolunteerPageListRequest request) {
         QueryWrapper<VolunteerOrder> queryWrapper = new QueryWrapper();
+        if (!StringUtils.isEmpty(request.getType())) {
+            queryWrapper.eq("type", request.getType());
+        }
         queryWrapper.select("user_id");
         queryWrapper.groupBy("user_id");
-        List<Integer> collect = volunteerOrderMapper.selectList(queryWrapper).stream().map(VolunteerOrder::getUserId).collect(Collectors.toList());
+        List<VolunteerOrder> volunteerOrders = volunteerOrderMapper.selectList(queryWrapper);
+        List<Integer> collect = Arrays.asList(-1);
+        if (!CollectionUtils.isEmpty(volunteerOrders)) {
+            collect = volunteerOrders.stream().map(VolunteerOrder::getUserId).collect(Collectors.toList());
+        }
         Page<User> page = new Page<>(request.getPageIndex(), request.getPageSize());
         QueryWrapper<User> queryWrapperUser = new QueryWrapper();
         queryWrapperUser.in("id", collect);
         return userMapper.selectPage(page, queryWrapperUser);
+    }
+
+    @Override
+    public Integer getCount(Integer userId) {
+        QueryWrapper<VolunteerOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        return volunteerOrderMapper.selectCount(queryWrapper);
     }
 }

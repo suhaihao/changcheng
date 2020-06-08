@@ -11,7 +11,7 @@ public interface NoticeService {
 	 * @param page 页码
 	 * @param size 每页条数
 	 * */
-	public PracResult selectAll(int page,int size,String orderField,String orderSeq);
+	public PracResult selectAll(int page,int size,Integer type,String orderField,String orderSeq);
 	
 	/**
 	 * 根据id 查询活动公告列表的方法

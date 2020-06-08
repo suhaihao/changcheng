@@ -58,4 +58,11 @@ public interface ActivityClockService extends IService<ActivityClock> {
      * @return
      */
     List<ActivityNotice> getPageNoticeList(ActivityNoticePageListRequest request);
+
+    /**
+     * 根据用户id查询数量
+     * @param userId
+     * @return
+     */
+    Integer getCount(Integer userId);
 }

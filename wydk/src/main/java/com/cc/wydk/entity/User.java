@@ -68,6 +68,14 @@ public class User implements UserDetails, Serializable {
     @TableField(value = "head_img")
     private String headImg;
 
+    @ApiModelProperty("积分")
+    @TableField(value = "integral")
+    private Integer integral;
+
+    @ApiModelProperty("队伍id")
+    @TableField(value = "team")
+    private String team;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
