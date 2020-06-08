@@ -11,6 +11,7 @@ import com.cc.wydk.mapper.UserMapper;
 import com.cc.wydk.mapper.VolunteerOrderMapper;
 import com.cc.wydk.request.VolunteerPageListRequest;
 import com.cc.wydk.service.VolunteerOrderService;
+import com.cc.wydk.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -65,7 +66,7 @@ public class VolunteerOrderServiceImpl extends ServiceImpl<VolunteerOrderMapper,
     @Override
     public Integer getCount(Integer userId) {
         QueryWrapper<VolunteerOrder> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("user_id", UserUtils.getUserId());
         return volunteerOrderMapper.selectCount(queryWrapper);
     }
 }

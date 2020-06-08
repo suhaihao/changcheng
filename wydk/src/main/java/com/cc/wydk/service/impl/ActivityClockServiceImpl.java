@@ -8,12 +8,14 @@ import com.cc.wydk.entity.ActivityClock;
 import com.cc.wydk.entity.ActivityNotice;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.entity.VolunteerTeam;
+import com.cc.wydk.exception.BusinessInterfaceException;
 import com.cc.wydk.mapper.ActivityClockMapper;
 import com.cc.wydk.mapper.ActivityNoticeMapper;
 import com.cc.wydk.mapper.UserMapper;
 import com.cc.wydk.mapper.VolunteerTeamMapper;
 import com.cc.wydk.request.*;
 import com.cc.wydk.service.ActivityClockService;
+import com.cc.wydk.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +58,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         activityClock.setEndTime(LocalDateTime.now());
         activityClock.setCreateTime(LocalDateTime.now());
         activityClock.setUpdateTime(LocalDateTime.now());
+        activityClock.setUserId(UserUtils.getUserId());
         return activityClockMapper.insert(activityClock) > 0;
     }
 
@@ -63,7 +66,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
     public Boolean getByActivityIdAndUserId(ActivityClockGetStatusRequest request) {
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
-        queryWrapper.eq("user_id", request.getUserId());
+        queryWrapper.eq("user_id", UserUtils.getUserId());
         queryWrapper.eq("sign_up", "1");
         return activityClockMapper.selectList(queryWrapper).size() > 0;
     }
@@ -74,7 +77,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
-        queryWrapper.eq("user_id", request.getUserId());
+        queryWrapper.eq("user_id", UserUtils.getUserId());
         queryWrapper.between("create_time", today_start, today_end);
         return activityClockMapper.selectOne(queryWrapper);
     }
@@ -86,17 +89,23 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         LocalDateTime today_start = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
-        queryWrapper.eq("user_id", request.getUserId());
+        queryWrapper.eq("user_id", UserUtils.getUserId());
         queryWrapper.between("create_time", today_start, today_end);
         ActivityClock activityClock = activityClockMapper.selectOne(queryWrapper);
         if (null != activityClock) {
             if (request.getStatus().equals("1")) {
+                if (activityClock.getStartTime().isAfter(LocalDateTime.now())) {
+                    throw new BusinessInterfaceException("活动未开始");
+                }
                 activityClock.setStartTime(LocalDateTime.now());
                 activityClock.setStatus(request.getStatus());
                 activityClock.setUpdateTime(LocalDateTime.now());
                 activityClockMapper.updateById(activityClock);
                 return true;
             } else if (request.getStatus().equals("2")) {
+                if (activityClock.getEndTime().isBefore(LocalDateTime.now())) {
+                    throw new BusinessInterfaceException("活动已结束");
+                }
                 activityClock.setEndTime(LocalDateTime.now());
                 activityClock.setStatus(request.getStatus());
                 activityClock.setUpdateTime(LocalDateTime.now());
@@ -105,7 +114,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                 activityClock.setDuration(String.valueOf(time));
                 activityClockMapper.updateById(activityClock);
                 //更新用户积分
-                User user = userMapper.selectById(request.getUserId());
+                User user = userMapper.selectById(UserUtils.getUserId());
                 if (null != user) {
                     user.setIntegral((int) time / 60 / 60 + 1);
                 }
@@ -133,7 +142,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
     @Override
     public List<ActivityNotice> getPageNoticeList(ActivityNoticePageListRequest request) {
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
-        queryWrapper.eq("user_id", request.getUserId());
+        queryWrapper.eq("user_id", UserUtils.getUserId());
         queryWrapper.groupBy("activity_id");
         queryWrapper.select("activity_id");
         List<Integer> collect = activityClockMapper.selectList(queryWrapper).stream().map(ActivityClock::getActivityId).collect(Collectors.toList());
@@ -143,7 +152,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
     @Override
     public Integer getCount(Integer userId) {
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("user_id", UserUtils.getUserId());
         return activityClockMapper.selectCount(queryWrapper);
     }
 }

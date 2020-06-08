@@ -7,6 +7,7 @@ import com.cc.wydk.request.VolunteerOrderAddRequest;
 import com.cc.wydk.request.VolunteerOrderUpdateRequest;
 import com.cc.wydk.request.VolunteerPageListRequest;
 import com.cc.wydk.service.VolunteerOrderService;
+import com.cc.wydk.utils.UserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -50,6 +51,7 @@ public class VolunteerOrderController {
         volunteerOrder.setUpdateTime(LocalDateTime.now());
         volunteerOrder.setCreateBy(request.getUserId());
         volunteerOrder.setUpdateBy(request.getUserId());
+        volunteerOrder.setCreateBy(UserUtils.getUserId());
         return volunteerOrderService.save(volunteerOrder);
     }
 

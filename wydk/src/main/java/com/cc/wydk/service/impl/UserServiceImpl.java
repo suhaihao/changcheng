@@ -13,6 +13,7 @@ import com.cc.wydk.respond.UserResPonse;
 import com.cc.wydk.service.ActivityClockService;
 import com.cc.wydk.service.UserService;
 import com.cc.wydk.service.VolunteerOrderService;
+import com.cc.wydk.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -67,13 +68,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public UserResPonse getById(UserQueryRequest request) {
-        User user = userMapper.selectById(request.getId());
+        User user = userMapper.selectById(UserUtils.getUserId());
         if (null != user) {
             UserResPonse userResPonse = new UserResPonse();
             BeanUtils.copyProperties(user, userResPonse);
-            Integer countOrder = volunteerOrderService.getCount(request.getId());
+            Integer countOrder = volunteerOrderService.getCount(UserUtils.getUserId());
             userResPonse.setOrderCount(countOrder);
-            Integer countClock = activityClockService.getCount(request.getId());
+            Integer countClock = activityClockService.getCount(UserUtils.getUserId());
             userResPonse.setActivitySignCount(countClock);
             return userResPonse;
         }
