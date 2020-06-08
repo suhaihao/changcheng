@@ -18,6 +18,14 @@ public interface VolunteerTeamService extends IService<VolunteerTeam> {
     IPage<VolunteerTeamResponse> getRankingPageList(VolunteerTeamPageListRequest request);
 
     /**
+     * 分页获取团队列表
+     *
+     * @param request
+     * @return
+     */
+    IPage<VolunteerTeam> getPageList(VolunteerTeamPageListRequest request);
+
+    /**
      * 根据id获取唯一数据
      * @param request
      * @return

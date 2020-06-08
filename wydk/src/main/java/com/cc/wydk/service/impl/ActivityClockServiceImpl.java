@@ -119,6 +119,15 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                     user.setIntegral((int) time / 60 / 60 + 1);
                 }
                 userMapper.updateById(user);
+                //更新团队积分
+                if (!StringUtils.isEmpty(user.getTeam())) {
+                    VolunteerTeam volunteerTeam = volunteerTeamMapper.selectById(user.getTeam());
+                    if (null != volunteerTeam) {
+                        volunteerTeam.setServiceDuration(volunteerTeam.getServiceDuration() + (int) time);
+                    }
+                    volunteerTeam.setNumberOfServices(volunteerTeam.getNumberOfServices() + 1);
+                    volunteerTeamMapper.updateById(volunteerTeam);
+                }
                 return true;
             }
         }

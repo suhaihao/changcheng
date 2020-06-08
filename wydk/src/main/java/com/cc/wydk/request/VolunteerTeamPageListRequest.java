@@ -16,4 +16,7 @@ public class VolunteerTeamPageListRequest {
     @ApiModelProperty("分页大小")
     private int pageSize = 20;
 
+    @ApiModelProperty("团队名称")
+    private String teamName;
+
 }

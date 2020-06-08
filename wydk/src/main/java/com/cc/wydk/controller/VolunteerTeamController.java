@@ -31,8 +31,14 @@ public class VolunteerTeamController {
 
     @PostMapping("/getByRankingPageList")
     @ApiOperation(value = "获取团队排行")
-    public IPage<VolunteerTeamResponse> getByPageList(@RequestBody VolunteerTeamPageListRequest request) {
+    public IPage<VolunteerTeamResponse> getByRankingPageList(@RequestBody VolunteerTeamPageListRequest request) {
         return volunteerTeamService.getRankingPageList(request);
+    }
+
+    @PostMapping("/getByPageList")
+    @ApiOperation(value = "获取团队")
+    public IPage<VolunteerTeam> getByPageList(@RequestBody VolunteerTeamPageListRequest request) {
+        return volunteerTeamService.getPageList(request);
     }
 
     @PostMapping("/getDetail")
