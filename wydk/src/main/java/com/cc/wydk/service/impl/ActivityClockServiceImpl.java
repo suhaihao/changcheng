@@ -152,6 +152,9 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
     public List<ActivityNotice> getPageNoticeList(ActivityNoticePageListRequest request) {
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("user_id", UserUtils.getUserId());
+        if (StringUtils.isEmpty(request.getStatus())) {
+            queryWrapper.eq("status", "1");
+        }
         queryWrapper.groupBy("activity_id");
         queryWrapper.select("activity_id");
         List<Integer> collect = activityClockMapper.selectList(queryWrapper).stream().map(ActivityClock::getActivityId).collect(Collectors.toList());
