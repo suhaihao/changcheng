@@ -93,42 +93,45 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         queryWrapper.between("create_time", today_start, today_end);
         ActivityClock activityClock = activityClockMapper.selectOne(queryWrapper);
         if (null != activityClock) {
-            if (request.getStatus().equals("1")) {
-                if (activityClock.getStartTime().isAfter(LocalDateTime.now())) {
-                    throw new BusinessInterfaceException("活动未开始");
-                }
-                activityClock.setStartTime(LocalDateTime.now());
-                activityClock.setStatus(request.getStatus());
-                activityClock.setUpdateTime(LocalDateTime.now());
-                activityClockMapper.updateById(activityClock);
-                return true;
-            } else if (request.getStatus().equals("2")) {
-                if (activityClock.getEndTime().isBefore(LocalDateTime.now())) {
-                    throw new BusinessInterfaceException("活动已结束");
-                }
-                activityClock.setEndTime(LocalDateTime.now());
-                activityClock.setStatus(request.getStatus());
-                activityClock.setUpdateTime(LocalDateTime.now());
-                Duration duration = Duration.between(activityClock.getStartTime(), activityClock.getEndTime());
-                long time = duration.toMillis() / 1000;
-                activityClock.setDuration(String.valueOf(time));
-                activityClockMapper.updateById(activityClock);
-                //更新用户积分
-                User user = userMapper.selectById(UserUtils.getUserId());
-                if (null != user) {
-                    user.setIntegral((int) time / 60 / 60 + 1);
-                }
-                userMapper.updateById(user);
-                //更新团队积分
-                if (!StringUtils.isEmpty(user.getTeam())) {
-                    VolunteerTeam volunteerTeam = volunteerTeamMapper.selectById(user.getTeam());
-                    if (null != volunteerTeam) {
-                        volunteerTeam.setServiceDuration(volunteerTeam.getServiceDuration() + (int) time);
+            ActivityNotice activityNotice = activityNoticeMapper.selectById(request.getActivityId());
+            if (null != activityClock) {
+                if (request.getStatus().equals("1")) {
+                    if (activityNotice.getStartTime().isAfter(LocalDateTime.now())) {
+                        throw new BusinessInterfaceException("活动未开始");
                     }
-                    volunteerTeam.setNumberOfServices(volunteerTeam.getNumberOfServices() + 1);
-                    volunteerTeamMapper.updateById(volunteerTeam);
+                    activityClock.setStartTime(LocalDateTime.now());
+                    activityClock.setStatus(request.getStatus());
+                    activityClock.setUpdateTime(LocalDateTime.now());
+                    activityClockMapper.updateById(activityClock);
+                    return true;
+                } else if (request.getStatus().equals("2")) {
+                    if (activityNotice.getEndTime().isBefore(LocalDateTime.now())) {
+                        throw new BusinessInterfaceException("活动已结束");
+                    }
+                    activityClock.setEndTime(LocalDateTime.now());
+                    activityClock.setStatus(request.getStatus());
+                    activityClock.setUpdateTime(LocalDateTime.now());
+                    Duration duration = Duration.between(activityClock.getStartTime(), activityClock.getEndTime());
+                    long time = duration.toMillis() / 1000;
+                    activityClock.setDuration(String.valueOf(time));
+                    activityClockMapper.updateById(activityClock);
+                    //更新用户积分
+                    User user = userMapper.selectById(UserUtils.getUserId());
+                    if (null != user) {
+                        user.setIntegral((int) time / 60 / 60 + 1);
+                    }
+                    userMapper.updateById(user);
+                    //更新团队积分
+                    if (!StringUtils.isEmpty(user.getTeam())) {
+                        VolunteerTeam volunteerTeam = volunteerTeamMapper.selectById(user.getTeam());
+                        if (null != volunteerTeam) {
+                            volunteerTeam.setServiceDuration(volunteerTeam.getServiceDuration() + (int) time);
+                        }
+                        volunteerTeam.setNumberOfServices(volunteerTeam.getNumberOfServices() + 1);
+                        volunteerTeamMapper.updateById(volunteerTeam);
+                    }
+                    return true;
                 }
-                return true;
             }
         }
         return false;
