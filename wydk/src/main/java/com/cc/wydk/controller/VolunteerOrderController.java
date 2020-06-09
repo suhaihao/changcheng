@@ -76,8 +76,10 @@ public class VolunteerOrderController {
     public Boolean joinOrder(@Valid @RequestBody VolunteerOrderDetailRequest request) {
         VolunteerOrder byId = volunteerOrderService.getById(request.getId());
         if (null != byId) {
-            byId.setUserId(UserUtils.getUserId());
-            return volunteerOrderService.updateById(byId);
+            if (byId.getUserId() == null) {
+                byId.setUserId(UserUtils.getUserId());
+                return volunteerOrderService.updateById(byId);
+            }
         }
         return false;
     }
