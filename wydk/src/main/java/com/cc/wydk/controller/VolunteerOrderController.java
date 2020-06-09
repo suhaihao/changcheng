@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.entity.VolunteerOrder;
 import com.cc.wydk.request.VolunteerOrderAddRequest;
+import com.cc.wydk.request.VolunteerOrderDetailRequest;
 import com.cc.wydk.request.VolunteerOrderUpdateRequest;
 import com.cc.wydk.request.VolunteerPageListRequest;
 import com.cc.wydk.service.VolunteerOrderService;
@@ -14,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
 @RestController
@@ -61,6 +63,12 @@ public class VolunteerOrderController {
         VolunteerOrder volunteerOrder = new VolunteerOrder();
         BeanUtils.copyProperties(request, volunteerOrder);
         return volunteerOrderService.updateById(volunteerOrder);
+    }
+
+    @PostMapping("/detail")
+    @ApiOperation(value = "点单详情")
+    public VolunteerOrder getDetail(@Valid @RequestBody VolunteerOrderDetailRequest request) {
+        return volunteerOrderService.getById(request.getId());
     }
 
 }
