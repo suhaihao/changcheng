@@ -2,6 +2,7 @@ package com.cc.wydk.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.RecommendedPeople;
+import com.cc.wydk.request.RecommendedPeopleDetailRequest;
 import com.cc.wydk.request.RecommendedPeoplePageListRequest;
 import com.cc.wydk.service.RecommendedPeopleService;
 import io.swagger.annotations.Api;
@@ -26,6 +27,12 @@ public class RecommendedPeopleController {
     @ApiOperation(value = "获取分頁列表")
     public IPage<RecommendedPeople> getByPageList(@RequestBody RecommendedPeoplePageListRequest request) {
         return recommendedPeopleService.getPageList(request);
+    }
+
+    @PostMapping("/getDetail")
+    @ApiOperation(value = "获取详情")
+    public RecommendedPeople getDetail(@RequestBody RecommendedPeopleDetailRequest request) {
+        return recommendedPeopleService.getById(request.getId());
     }
 
 
