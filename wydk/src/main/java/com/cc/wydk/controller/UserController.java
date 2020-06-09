@@ -9,6 +9,7 @@ import com.cc.wydk.request.VolunteerOrderAddRequest;
 import com.cc.wydk.respond.UserRankingResponse;
 import com.cc.wydk.respond.UserResPonse;
 import com.cc.wydk.service.UserService;
+import com.cc.wydk.utils.UserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -37,6 +38,12 @@ public class UserController {
     @ApiOperation(value = "获取用户信息")
     public UserResPonse saveVolunteerOrder(@Valid @RequestBody UserQueryRequest request) {
         return userService.getById(request);
+    }
+
+    @PostMapping("/queryUserId")
+    @ApiOperation(value = "获取用户id")
+    public Integer getUserId() {
+        return UserUtils.getUserId();
     }
 
     @PostMapping("/rankingUser")
