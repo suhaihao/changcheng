@@ -19,6 +19,7 @@ import com.cc.wydk.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.beans.Transient;
@@ -26,6 +27,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -155,14 +157,19 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
     @Override
     public List<ActivityNotice> getPageNoticeList(ActivityNoticePageListRequest request) {
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
-        queryWrapper.eq("user_id", UserUtils.getUserId());
+        Integer userId = UserUtils.getUserId();
+        queryWrapper.eq("user_id", userId);
         if (StringUtils.isEmpty(request.getStatus())) {
             queryWrapper.eq("status", "1");
         }
         queryWrapper.groupBy("activity_id");
         queryWrapper.select("activity_id");
-        List<Integer> collect = activityClockMapper.selectList(queryWrapper).stream().map(ActivityClock::getActivityId).collect(Collectors.toList());
-        return activityNoticeMapper.selectBatchIds(collect);
+        List<ActivityClock> activityClocks = activityClockMapper.selectList(queryWrapper);
+        if (!CollectionUtils.isEmpty(activityClocks)) {
+            List<Integer> collect = activityClocks.stream().map(ActivityClock::getActivityId).collect(Collectors.toList());
+            return activityNoticeMapper.selectBatchIds(collect);
+        }
+        return new ArrayList<>();
     }
 
     @Override
