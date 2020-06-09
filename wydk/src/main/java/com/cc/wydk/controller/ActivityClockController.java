@@ -5,6 +5,7 @@ import com.cc.wydk.entity.ActivityClock;
 import com.cc.wydk.entity.ActivityNotice;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.request.*;
+import com.cc.wydk.response.ResultBean;
 import com.cc.wydk.service.ActivityClockService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,8 +41,8 @@ public class ActivityClockController {
 
     @PostMapping("/getStatus")
     @ApiOperation(value = "获取今天该用户的活动状态")
-    public ActivityClock getStatusActivityClock(@RequestBody ActivityClockGetStatusRequest request) {
-        return activityClockService.getByUserIdAndActivityIdAndTime(request);
+    public ResultBean<ActivityClock> getStatusActivityClock(@RequestBody ActivityClockGetStatusRequest request) {
+        return new ResultBean<>(activityClockService.getByUserIdAndActivityIdAndTime(request));
     }
 
     @PostMapping("/setUpdateStatus")

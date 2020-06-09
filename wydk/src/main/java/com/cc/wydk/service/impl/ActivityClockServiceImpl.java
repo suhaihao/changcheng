@@ -79,7 +79,8 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         queryWrapper.eq("activity_id", request.getActivityId());
         queryWrapper.eq("user_id", UserUtils.getUserId());
         queryWrapper.between("create_time", today_start, today_end);
-        return activityClockMapper.selectOne(queryWrapper);
+        ActivityClock activityClock = activityClockMapper.selectOne(queryWrapper);
+        return activityClock;
     }
 
     @Override
