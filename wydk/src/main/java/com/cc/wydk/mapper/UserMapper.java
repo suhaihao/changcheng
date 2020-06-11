@@ -15,6 +15,6 @@ public interface UserMapper extends BaseMapper<User> {
      * @param page
      * @return
      */
-    @Select(value = "select (@r :=@r + 1) as rowNum,s.* from user s,(select @r := 0) r order by integral desc")
+    @Select(value = "select (@r :=@r + 1) as rowNum,s.* from rx_user s,(select @r := 0) r order by integral desc")
     Page<UserRankingResponse> getRankingList(Page page);
 }
