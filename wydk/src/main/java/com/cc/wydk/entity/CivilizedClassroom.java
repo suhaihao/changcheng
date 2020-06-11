@@ -17,7 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @ApiModel("文明课堂")
-@TableName("civilized_classroom")
+@TableName("rx_civilized_classroom")
 public class CivilizedClassroom {
 
     @ApiModelProperty("唯一id")

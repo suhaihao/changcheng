@@ -25,7 +25,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel("用户表")
-@TableName("user")
+@TableName("rx_user")
 public class User implements UserDetails, Serializable {
 
     @ApiModelProperty("唯一id")

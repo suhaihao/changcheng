@@ -16,7 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @ApiModel("支援点单记录表")
-@TableName("volunteer_order")
+@TableName("rx_volunteer_order")
 public class VolunteerOrder {
 
     @ApiModelProperty("唯一id")

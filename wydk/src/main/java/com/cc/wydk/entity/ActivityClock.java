@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel("点赞表")
-@TableName("activity_clock")
+@TableName("rx_activity_clock")
 public class ActivityClock {
 
     @ApiModelProperty("唯一id")

@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @ApiModel("微电影")
-@TableName("civilization_microfilm")
+@TableName("rx_civilization_microfilm")
 public class CivilizationMicrofilm {
 
   @ApiModelProperty("唯一id")

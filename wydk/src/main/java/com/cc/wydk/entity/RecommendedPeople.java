@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel("全国十大好人")
-@TableName("recommended_people")
+@TableName("rx_recommended_people")
 public class RecommendedPeople {
 
   @ApiModelProperty("唯一id")

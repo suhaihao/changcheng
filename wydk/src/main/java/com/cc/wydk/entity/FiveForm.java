@@ -16,7 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @ApiModel("五小形式表")
-@TableName("five_form")
+@TableName("rx_five_form")
 public class FiveForm {
 
     @ApiModelProperty("唯一id")
