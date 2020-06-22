@@ -15,6 +15,6 @@ public interface VolunteerTeamMapper extends BaseMapper<VolunteerTeam> {
      * @param page
      * @return
      */
-    @Select(value = "select (@r :=@r + 1) as rowNum,s.*,count(u.id) teamCount from volunteer_team s,(select @r := 0) r,user u where s.id=u.team group by u.team order by s.service_duration desc")
+    @Select(value = "select  (@r :=@r + 1) as rowNum ,a.* from (select s.*,count(u.id) teamCount from volunteer_team s left join user u on s.id=u.team group by s.id,u.team order by s.service_duration desc ) a ,(select @r := 0) r")
     IPage<VolunteerTeamResponse> getRankingList(Page page);
 }

@@ -88,6 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v2/**").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/clock/setUpdateStatus").permitAll()
+                .antMatchers("/five/getPageList").permitAll()
                 .anyRequest()
                 .authenticated()// 其他 url 需要身份认证
                 .and()
