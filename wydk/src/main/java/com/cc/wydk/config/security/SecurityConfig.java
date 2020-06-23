@@ -89,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/**").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/clock/setUpdateStatus").permitAll()
-                .antMatchers("/five/getPageList").permitAll()
+                .antMatchers("/five/**").permitAll()
                 .anyRequest()
                 .authenticated()// 其他 url 需要身份认证
                 .and()
