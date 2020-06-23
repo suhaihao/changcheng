@@ -40,9 +40,14 @@ public class CivilizedClassroom {
     @TableField(value = "imgs")
     private String imgs;
 
-    @ApiModelProperty("likes")
+    @ApiModelProperty("点赞数")
     @TableField(value = "likes")
     private String likes;
+
+    @ApiModelProperty("内容")
+    @TableField(value = "content")
+    private String content;
+
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
