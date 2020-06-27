@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
 @RestController
@@ -51,6 +52,12 @@ public class CivilizedClassroomController {
         CivilizedClassroom civilizedClassroom = new CivilizedClassroom();
         BeanUtils.copyProperties(request, civilizedClassroom);
         return civilizedClassroomService.updateById(civilizedClassroom);
+    }
+
+    @PostMapping("/getDeatil")
+    @ApiOperation(value = "文明课堂详情")
+    public CivilizedClassroom getDetail(@Valid @RequestBody CivilizedClassroomDetailRequest request) {
+        return civilizedClassroomService.getById(request.getId());
     }
 
 }
