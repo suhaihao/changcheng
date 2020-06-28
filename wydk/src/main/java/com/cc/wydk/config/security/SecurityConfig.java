@@ -79,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/microfilm/getByPageList").permitAll()
                 .antMatchers("/recommend/getByPageList").permitAll()
                 .antMatchers("/recommend/getDetail").permitAll()
-                .antMatchers("/classroom/getByPageList").permitAll()
+                .antMatchers("/classroom/**").permitAll()
                 .antMatchers("/order/detail").permitAll()
                 .antMatchers("/user/rankingUser").permitAll()
                 .antMatchers("/clock/getPageClockList").permitAll()
