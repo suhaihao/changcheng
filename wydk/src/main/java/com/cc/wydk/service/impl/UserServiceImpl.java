@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cc.wydk.entity.User;
+import com.cc.wydk.enumDate.ExceptionEnum;
+import com.cc.wydk.exception.BusinessInterfaceException;
 import com.cc.wydk.mapper.UserMapper;
 import com.cc.wydk.request.UserPageListRequest;
 import com.cc.wydk.request.UserQueryRequest;
@@ -20,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * All rights Reserved, Designed By www.hebeiwanteng.com
@@ -52,9 +55,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("phone", s);
         User user = userMapper.selectOne(queryWrapper);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String ps = encoder.encode("123");
-        user.setPassword(ps);
+        if (null == user) {
+            throw new BusinessInterfaceException(ExceptionEnum.FAILURELOGIN.getCode(), ExceptionEnum.FAILURELOGIN.getMsg());
+        }
         return user;
     }
 

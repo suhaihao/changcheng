@@ -40,6 +40,17 @@ public class VolunteerOrderServiceImpl extends ServiceImpl<VolunteerOrderMapper,
         if (!StringUtils.isEmpty(request.getType())) {
             queryWrapperUser.eq("type", request.getType());
         }
+        if (null != request.getIsExamine()) {
+            queryWrapperUser.eq("is_examine", request.getIsExamine());
+        }
+
+        if (request.getIsUser()) {
+            queryWrapperUser.eq("user_id", UserUtils.getUserId());
+        }
+
+        if (request.getCreateBy()) {
+            queryWrapperUser.eq("create_by", UserUtils.getUserId());
+        }
         queryWrapperUser.orderByDesc("create_time");
         return volunteerOrderMapper.selectPage(page, queryWrapperUser);
     }
@@ -49,6 +60,9 @@ public class VolunteerOrderServiceImpl extends ServiceImpl<VolunteerOrderMapper,
         QueryWrapper<VolunteerOrder> queryWrapper = new QueryWrapper();
         if (!StringUtils.isEmpty(request.getType())) {
             queryWrapper.eq("type", request.getType());
+        }
+        if (null != request.getIsExamine()) {
+            queryWrapper.eq("is_examine", request.getIsExamine());
         }
         queryWrapper.select("user_id");
         queryWrapper.groupBy("user_id");

@@ -18,26 +18,25 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-@ApiModel("文章点赞表")
-@TableName("artice_likes")
-public class ArticeLikes {
+@ApiModel("文章留言列表")
+@TableName("artice_message")
+public class ArticeMessage {
 
     @ApiModelProperty("唯一id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty("广告id")
-    @TableField(value = "artice_id")
-    private Integer articeId;
+    @ApiModelProperty("详情")
+    @TableField(value = "message")
+    private String message;
 
     @ApiModelProperty("用户id")
     @TableField(value = "user_id")
     private Integer userId;
 
-    @ApiModelProperty("数量")
-    @TableField(value = "size")
-    private Integer size;
+    @ApiModelProperty("文章id")
+    @TableField(value = "artice_id")
+    private Integer articeId;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)

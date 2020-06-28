@@ -1,3 +1,4 @@
+
 package com.cc.wydk.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -12,32 +13,26 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-@ApiModel("文章点赞表")
-@TableName("artice_likes")
-public class ArticeLikes {
+@ApiModel("后台登陆用户")
+@TableName("admin_user")
+public class AdminUser {
 
     @ApiModelProperty("唯一id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty("广告id")
-    @TableField(value = "artice_id")
-    private Integer articeId;
+    @ApiModelProperty("用户名")
+    @TableField(value = "user_name")
+    private String userName;
 
-    @ApiModelProperty("用户id")
-    @TableField(value = "user_id")
-    private Integer userId;
-
-    @ApiModelProperty("数量")
-    @TableField(value = "size")
-    private Integer size;
+    @ApiModelProperty("密码")
+    @TableField(value = "password")
+    private String password;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -46,6 +41,14 @@ public class ArticeLikes {
     @ApiModelProperty("创建时间")
     @TableField(value = "create_time")
     private LocalDateTime createTime;
+
+    @ApiModelProperty("头图地址")
+    @TableField(value = "head_img")
+    private String headImg;
+
+    @ApiModelProperty("级别")
+    @TableField(value = "leave")
+    private Integer leave;
 
 
 }

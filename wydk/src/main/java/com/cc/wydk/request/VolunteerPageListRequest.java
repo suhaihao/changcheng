@@ -1,9 +1,12 @@
 package com.cc.wydk.request;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.time.chrono.IsoChronology;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -18,6 +21,15 @@ public class VolunteerPageListRequest {
 
     @ApiModelProperty("类型")
     private String type;
+
+    @ApiModelProperty("是否过审0未过审1已过审")
+    private Integer isExamine;
+
+    @ApiModelProperty("我的接单")
+    private Boolean IsUser;
+
+    @ApiModelProperty("我的点单")
+    private Boolean createBy;
 
 
 }
