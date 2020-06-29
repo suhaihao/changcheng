@@ -38,7 +38,7 @@ public class ArticeMessage {
     @TableField(value = "artice_id")
     private Integer articeId;
 
-    @ApiModelProperty("类型")
+    @ApiModelProperty("类型：1文明红榜 2 文明黑帮 3 文明课堂 4十大精品 5五小形式 ")
     @TableField(value = "type")
     private Integer type;
 
