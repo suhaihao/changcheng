@@ -38,6 +38,10 @@ public class ArticeMessage {
     @TableField(value = "artice_id")
     private Integer articeId;
 
+    @ApiModelProperty("类型")
+    @TableField(value = "type")
+    private Integer type;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

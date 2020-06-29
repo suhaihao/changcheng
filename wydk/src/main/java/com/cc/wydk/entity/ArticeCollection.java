@@ -23,26 +23,29 @@ import java.time.LocalDateTime;
 @TableName("artice_collection")
 public class ArticeCollection {
 
-  @ApiModelProperty("唯一id")
-  @TableId(value = "id", type = IdType.AUTO)
-  private Integer id;
+    @ApiModelProperty("唯一id")
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
-  @ApiModelProperty("广告id")
-  @TableField(value = "artice_id")
-  private Integer articeId;
+    @ApiModelProperty("广告id")
+    @TableField(value = "artice_id")
+    private Integer articeId;
 
-  @ApiModelProperty("用户id")
-  @TableField(value = "user_id")
-  private Integer userId;
+    @ApiModelProperty("用户id")
+    @TableField(value = "user_id")
+    private Integer userId;
 
-  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-  @JsonSerialize(using = LocalDateTimeSerializer.class)
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-  @ApiModelProperty("创建时间")
-  @TableField(value = "create_time")
-  private LocalDateTime createTime;
+    @ApiModelProperty("类型")
+    @TableField(value = "type")
+    private Integer type;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty("创建时间")
+    @TableField(value = "create_time")
+    private LocalDateTime createTime;
 
 
 }

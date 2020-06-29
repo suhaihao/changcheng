@@ -34,6 +34,9 @@ public class ArticeMessageServiceImpl extends ServiceImpl<ArticeMessageMapper, A
         if (request.getIsUser()) {
             queryWrapperUser.eq("user_id", UserUtils.getUserId());
         }
+        if (null != request.getType()) {
+            queryWrapperUser.eq("type", request.getType());
+        }
         if (null != request.getArticeId()) {
             queryWrapperUser.eq("artice_id", request.getArticeId());
         }

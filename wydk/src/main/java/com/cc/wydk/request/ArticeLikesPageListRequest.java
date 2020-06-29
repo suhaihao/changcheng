@@ -17,7 +17,7 @@ public class ArticeLikesPageListRequest {
     @ApiModelProperty("分页大小")
     private int pageSize = 20;
 
-    @NotNull(message = "各种文章类型")
+    @NotNull(message = "各种文章类型不能为空")
     @ApiModelProperty("类型")
     private Integer type;
 

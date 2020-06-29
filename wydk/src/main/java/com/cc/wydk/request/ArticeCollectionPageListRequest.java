@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel("收藏列表请求体")
@@ -16,5 +18,8 @@ public class ArticeCollectionPageListRequest {
     @ApiModelProperty("分页大小")
     private int pageSize = 20;
 
+    @NotNull(message = "各种文章类型不能为空")
+    @ApiModelProperty("类型")
+    private Integer type;
 
 }

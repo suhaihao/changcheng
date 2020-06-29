@@ -29,6 +29,9 @@ public class ArticeCollectionServiceImpl extends ServiceImpl<ArticCollectionMapp
         Page<ArticeCollection> page = new Page<>(request.getPageIndex(), request.getPageSize());
         QueryWrapper<ArticeCollection> queryWrapperUser = new QueryWrapper();
         queryWrapperUser.eq("user_id", UserUtils.getUserId());
+        if (null != request.getType()) {
+            queryWrapperUser.eq("type", request.getType());
+        }
         queryWrapperUser.orderByDesc("create_time");
         return articCollectionMapper.selectPage(page, queryWrapperUser);
     }
