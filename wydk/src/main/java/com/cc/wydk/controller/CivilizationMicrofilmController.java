@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
 @RestController
@@ -50,6 +51,12 @@ public class CivilizationMicrofilmController {
         CivilizationMicrofilm civilizationMicrofilm = new CivilizationMicrofilm();
         BeanUtils.copyProperties(request, civilizationMicrofilm);
         return civilizationMicrofilmService.updateById(civilizationMicrofilm);
+    }
+
+    @PostMapping("/detail")
+    @ApiOperation(value = "文明微电影详情")
+    public CivilizationMicrofilm detailCivilizationMicrofilm(@Valid @RequestBody CivilizationMicrofilmDetailRequest request) {
+        return civilizationMicrofilmService.getById(request.getId());
     }
 
 }
