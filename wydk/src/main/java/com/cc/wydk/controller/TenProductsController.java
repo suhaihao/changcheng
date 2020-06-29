@@ -3,6 +3,7 @@ package com.cc.wydk.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.TenProducts;
 import com.cc.wydk.request.TenProductsAddOrUpdateRequest;
+import com.cc.wydk.request.TenProductsDetailRequest;
 import com.cc.wydk.request.TenProductsPageListRequest;
 import com.cc.wydk.request.VolunteerTeamPageListRequest;
 import com.cc.wydk.respond.VolunteerTeamResponse;
@@ -12,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/ten")
@@ -39,6 +42,12 @@ public class TenProductsController {
         TenProducts tenProducts = new TenProducts();
         BeanUtils.copyProperties(request, tenProducts);
         return tenProductsService.saveOrUpdate(tenProducts);
+    }
+
+    @PostMapping("/getDetail")
+    @ApiOperation(value = "获取十大形式详情")
+    public TenProducts getDetail(@Valid @RequestBody TenProductsDetailRequest request) {
+        return tenProductsService.getById(request.getId());
     }
 
 
