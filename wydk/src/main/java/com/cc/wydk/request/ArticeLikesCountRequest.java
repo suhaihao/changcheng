@@ -16,4 +16,8 @@ public class ArticeLikesCountRequest {
     @ApiModelProperty("文章id")
     private Integer articeId;
 
+    @NotNull(message = "各种文章类型")
+    @ApiModelProperty("类型")
+    private Integer type;
+
 }

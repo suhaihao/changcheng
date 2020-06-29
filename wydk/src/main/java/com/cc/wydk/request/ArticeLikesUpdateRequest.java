@@ -16,4 +16,10 @@ public class ArticeLikesUpdateRequest {
     @ApiModelProperty("广告id")
     private Integer articeId;
 
+    @NotNull(message = "各种文章类型")
+    @ApiModelProperty("类型")
+    private Integer type;
+
+
+
 }

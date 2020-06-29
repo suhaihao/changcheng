@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @ApiModel("文章点赞列表请求体")
 public class ArticeLikesPageListRequest {
@@ -14,5 +16,9 @@ public class ArticeLikesPageListRequest {
 
     @ApiModelProperty("分页大小")
     private int pageSize = 20;
+
+    @NotNull(message = "各种文章类型")
+    @ApiModelProperty("类型")
+    private Integer type;
 
 }

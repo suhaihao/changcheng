@@ -30,6 +30,9 @@ public class ArticeLikesServiceImpl extends ServiceImpl<ArticeLikesMapper, Artic
         Page<ArticeLikes> page = new Page<>(request.getPageIndex(), request.getPageSize());
         QueryWrapper<ArticeLikes> queryWrapperUser = new QueryWrapper();
         queryWrapperUser.eq("user_id", UserUtils.getUserId());
+        if (null != request.getType()) {
+            queryWrapperUser.eq("type", request.getType());
+        }
         queryWrapperUser.orderByDesc("create_time");
         return articeLikesMapper.selectPage(page, queryWrapperUser);
     }
@@ -38,6 +41,9 @@ public class ArticeLikesServiceImpl extends ServiceImpl<ArticeLikesMapper, Artic
     public Integer getLikesCount(ArticeLikesCountRequest request) {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("artice_id", request.getArticeId());
+        if (null != request.getType()) {
+            queryWrapper.eq("type", request.getType());
+        }
         return articeLikesMapper.selectCount(queryWrapper);
     }
 }
