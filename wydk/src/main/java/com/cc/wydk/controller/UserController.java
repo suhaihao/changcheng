@@ -1,6 +1,7 @@
 package com.cc.wydk.controller;
 
 import com.alibaba.druid.util.StringUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.entity.UserJoinTemLog;
@@ -64,7 +65,13 @@ public class UserController {
     @PostMapping("/addUser")
     @ApiOperation(value = "用户注册")
     public Boolean addUser(@Valid @RequestBody UserAddRequest request) {
-        User user = new User();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("phone", request.getPhone());
+        User user = userService.getOne(queryWrapper);
+        if (null!=user){
+            throw new BusinessInterfaceException("该手机号已注册");
+        }
+        user = new User();
         BeanUtils.copyProperties(request, user);
         user.setNickname(request.getFullname());
         user.setGrade("初级");
