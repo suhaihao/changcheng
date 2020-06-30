@@ -10,7 +10,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-@ApiModel("用户注册请求体")
+@ApiModel("用户加入团队请求体")
 public class UserJoinTeamLogAddRequest {
 
 
