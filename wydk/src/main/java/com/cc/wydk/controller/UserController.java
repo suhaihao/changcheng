@@ -20,6 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -67,7 +68,7 @@ public class UserController {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("phone", request.getPhone());
         User user = userService.getOne(queryWrapper);
-        if (null!=user){
+        if (null != user) {
             throw new BusinessInterfaceException("该手机号已注册");
         }
         user = new User();
@@ -79,6 +80,7 @@ public class UserController {
         user.setUpdateTime(LocalDateTime.now());
         user.setCreateBy(1);
         user.setUpdateBy(1);
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userService.save(user);
     }
 

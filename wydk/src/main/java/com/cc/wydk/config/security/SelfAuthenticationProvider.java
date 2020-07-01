@@ -30,16 +30,15 @@ public class SelfAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String ps = encoder.encode(password);
         if (StringUtils.isNumber(username) && username.length() == 11) {
             User user = userService.loginByUserName(username);
             if (null == user) {
                 throw new BusinessInterfaceException(ExceptionEnum.FAILURELOGIN.getCode(), ExceptionEnum.FAILURELOGIN.getMsg());
             }
             if (StringUtils.isEmpty(user.getPassword())) {
-                user.setPassword("123");
+                user.setPassword(encoder.encode("123"));
             }
-            if (!encoder.encode(user.getPassword()).equals(ps)) {
+            if (!encoder.matches(password, user.getPassword())) {
                 throw new BadCredentialsException("用户名密码不正确，请重新登陆！");
             }
             return new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities());
@@ -48,7 +47,7 @@ public class SelfAuthenticationProvider implements AuthenticationProvider {
             if (null == byUserName) {
                 throw new BusinessInterfaceException(ExceptionEnum.FAILURELOGIN.getCode(), ExceptionEnum.FAILURELOGIN.getMsg());
             }
-            if (!encoder.encode(byUserName.getPassword()).equals(ps)) {
+            if (!encoder.matches(password, encoder.encode(byUserName.getPassword()))) {
                 throw new BadCredentialsException("用户名密码不正确，请重新登陆！");
             }
             return new UsernamePasswordAuthenticationToken(username, password, null);
