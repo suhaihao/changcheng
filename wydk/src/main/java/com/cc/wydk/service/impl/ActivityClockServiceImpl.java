@@ -121,7 +121,8 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                     //更新用户积分
                     User user = userMapper.selectById(UserUtils.getUserId());
                     if (null != user) {
-                        user.setIntegral((int) time / 60 / 60 + 1);
+                        user.setIntegral(user.getIntegral() + (int) time / 60 / 60 + 1);
+                        user.setService(user.getService() + (int) time / 60 / 60 + 1);
                     }
                     userMapper.updateById(user);
                     //更新团队积分

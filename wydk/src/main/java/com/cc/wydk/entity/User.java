@@ -72,6 +72,10 @@ public class User implements UserDetails, Serializable {
     @TableField(value = "integral")
     private Integer integral;
 
+    @ApiModelProperty("服务时长")
+    @TableField(value = "service")
+    private Integer service;
+
     @ApiModelProperty("队伍id")
     @TableField(value = "team")
     private String team;
