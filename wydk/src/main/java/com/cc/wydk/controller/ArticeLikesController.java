@@ -1,11 +1,9 @@
 package com.cc.wydk.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.ArticeLikes;
-import com.cc.wydk.request.ArticeLikesCountRequest;
-import com.cc.wydk.request.ArticeLikesDetailRequest;
-import com.cc.wydk.request.ArticeLikesPageListRequest;
-import com.cc.wydk.request.ArticeLikesUpdateRequest;
+import com.cc.wydk.request.*;
 import com.cc.wydk.response.ResultBean;
 import com.cc.wydk.service.ArticeLikesService;
 import com.cc.wydk.utils.UserUtils;
@@ -56,8 +54,12 @@ public class ArticeLikesController {
 
     @PostMapping("/del")
     @ApiOperation(value = "文章点赞刪除")
-    public ResultBean<Boolean> getDelete(@Valid @RequestBody ArticeLikesDetailRequest request) {
-        return new ResultBean<>(articeLikesService.removeById(request.getId()));
+    public ResultBean<Boolean> getDelete(@Valid @RequestBody ArticeLikesDeleteRequest request) {
+        QueryWrapper<ArticeLikes> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("artice_id", request.getArticeId());
+        queryWrapper.eq("type", request.getType());
+        queryWrapper.eq("user_id", UserUtils.getUserId());
+        return new ResultBean<>(articeLikesService.remove(queryWrapper));
     }
 
     @PostMapping("/getLikeCount")

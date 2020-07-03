@@ -1,7 +1,9 @@
 package com.cc.wydk.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.ArticeCollection;
+import com.cc.wydk.request.ArticeCollectionDeleteRequest;
 import com.cc.wydk.request.ArticeCollectionDetailRequest;
 import com.cc.wydk.request.ArticeCollectionPageListRequest;
 import com.cc.wydk.request.ArticeCollectionSaveRequest;
@@ -56,8 +58,12 @@ public class ArticeCollectionController {
 
     @PostMapping("/del")
     @ApiOperation(value = "收藏刪除")
-    public ResultBean<Boolean> getDelete(@Valid @RequestBody ArticeCollectionDetailRequest request) {
-        return new ResultBean<>(articeCollectionService.removeById(request.getId()));
+    public ResultBean<Boolean> getDelete(@Valid @RequestBody ArticeCollectionDeleteRequest request) {
+        QueryWrapper<ArticeCollection> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("artice_id", request.getArticeId());
+        queryWrapper.eq("type", request.getType());
+        queryWrapper.eq("user_id", UserUtils.getUserId());
+        return new ResultBean<>(articeCollectionService.remove(queryWrapper));
     }
 
 }
