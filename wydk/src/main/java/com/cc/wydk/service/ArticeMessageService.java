@@ -7,6 +7,7 @@ import com.cc.wydk.entity.ArticeMessage;
 import com.cc.wydk.request.ArticeLikesCountRequest;
 import com.cc.wydk.request.ArticeLikesPageListRequest;
 import com.cc.wydk.request.ArticeMessagePageListRequest;
+import com.cc.wydk.response.ArticeMessagePageResoinse;
 
 public interface ArticeMessageService extends IService<ArticeMessage> {
 
@@ -15,7 +16,7 @@ public interface ArticeMessageService extends IService<ArticeMessage> {
      * 分页获取文章列表请求提
      * @return
      */
-    IPage<ArticeMessage> getPageList(ArticeMessagePageListRequest request);
+    IPage<ArticeMessagePageResoinse> getPageList(ArticeMessagePageListRequest request);
 
 
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.ArticeLikes;
 import com.cc.wydk.entity.ArticeMessage;
 import com.cc.wydk.request.*;
+import com.cc.wydk.response.ArticeMessagePageResoinse;
 import com.cc.wydk.response.ResultBean;
 import com.cc.wydk.service.ArticeMessageService;
 import com.cc.wydk.utils.UserUtils;
@@ -31,7 +32,7 @@ public class ArticeMessageController {
 
     @PostMapping("/getByPageList")
     @ApiOperation(value = "分页获取文章留言列表")
-    public ResultBean<IPage<ArticeMessage>> getByPageList(@RequestBody ArticeMessagePageListRequest request) {
+    public ResultBean<IPage<ArticeMessagePageResoinse>> getByPageList(@RequestBody ArticeMessagePageListRequest request) {
         return new ResultBean<>(articeMessageService.getPageList(request));
     }
 
