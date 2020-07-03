@@ -84,6 +84,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/classroom/**").permitAll()
                 .antMatchers("/order/detail").permitAll()
                 .antMatchers("/user/rankingUser").permitAll()
+                .antMatchers("/user/getUserInteger").permitAll()
+                .antMatchers("/user/userPrizeConvert").permitAll()
                 .antMatchers("/articeMessage/detail").permitAll()
                 .antMatchers("/articeMessage/getByPageList").permitAll()
                 .antMatchers("/user/addUser").permitAll()

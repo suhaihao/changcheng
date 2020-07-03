@@ -90,5 +90,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.getRankingList(page);
     }
 
+    @Override
+    public Boolean updateIntegerById(Integer id, Integer integral) {
+        return userMapper.updateInteger(integral, id) > 0;
+    }
+
 
 }

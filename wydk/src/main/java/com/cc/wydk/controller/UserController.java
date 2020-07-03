@@ -2,16 +2,16 @@ package com.cc.wydk.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.cc.wydk.entity.PrizeConvertLog;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.entity.UserJoinTemLog;
 import com.cc.wydk.entity.VolunteerTeam;
 import com.cc.wydk.exception.BusinessInterfaceException;
-import com.cc.wydk.request.UserAddRequest;
-import com.cc.wydk.request.UserJoinTeamLogAddRequest;
-import com.cc.wydk.request.UserPageListRequest;
-import com.cc.wydk.request.UserQueryRequest;
+import com.cc.wydk.request.*;
 import com.cc.wydk.respond.UserRankingResponse;
 import com.cc.wydk.respond.UserResPonse;
+import com.cc.wydk.response.ResultBean;
+import com.cc.wydk.service.PrizeConvertService;
 import com.cc.wydk.service.UserJoinTemLogService;
 import com.cc.wydk.service.UserService;
 import com.cc.wydk.service.VolunteerTeamService;
@@ -35,12 +35,14 @@ public class UserController {
     private final UserService userService;
     private final UserJoinTemLogService userJoinTemLogService;
     private final VolunteerTeamService volunteerTeamService;
+    private final PrizeConvertService prizeConvertService;
 
     @Autowired
-    public UserController(UserService userService, UserJoinTemLogService userJoinTemLogService, VolunteerTeamService volunteerTeamService) {
+    public UserController(UserService userService, UserJoinTemLogService userJoinTemLogService, VolunteerTeamService volunteerTeamService, PrizeConvertService prizeConvertService) {
         this.userService = userService;
         this.userJoinTemLogService = userJoinTemLogService;
         this.volunteerTeamService = volunteerTeamService;
+        this.prizeConvertService = prizeConvertService;
     }
 
 
@@ -82,6 +84,46 @@ public class UserController {
         user.setUpdateBy(1);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userService.save(user);
+    }
+
+    @PostMapping("/getUserInteger")
+    @ApiOperation(value = "登录获取用户积分信息")
+    public ResultBean<Integer> addUser(@Valid @RequestBody UserGetIntegerRequest request) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        User user = userService.loginByUserName(request.getPhone());
+
+        if (!bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BusinessInterfaceException("账户密码不正确");
+        }
+
+        return new ResultBean<>(user.getIntegral());
+    }
+
+    @PostMapping("/userPrizeConvert")
+    @ApiOperation(value = "用户积分兑换记录")
+    public ResultBean<Boolean> userPrizeConvert(@Valid @RequestBody UserPrizeConvertRequest request) {
+        User user = userService.loginByUserName(request.getPhone());
+        if (null == user) {
+            throw new BusinessInterfaceException("不能存在的用户");
+        }
+        if (request.getIntegral() > 0) {
+            if (user.getIntegral() < request.getIntegral()) {
+                throw new BusinessInterfaceException("用户积分不足");
+            }
+            request.setIntegral(request.getIntegral() * -1);
+        } else {
+            if (user.getIntegral() < request.getIntegral() * -1) {
+                throw new BusinessInterfaceException("用户积分不足");
+            }
+        }
+        userService.updateIntegerById(user.getId(), request.getIntegral());
+        PrizeConvertLog prizeConvertLog = new PrizeConvertLog();
+        prizeConvertLog.setPrizeName(request.getPrizeName());
+        prizeConvertLog.setUserId(user.getId());
+        prizeConvertLog.setPhone(user.getPhone());
+        prizeConvertLog.setIntegral(request.getIntegral());
+        prizeConvertLog.setCreateTime(LocalDateTime.now());
+        return new ResultBean<>(prizeConvertService.save(prizeConvertLog));
     }
 
     @PostMapping("/join")

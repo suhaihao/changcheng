@@ -42,4 +42,12 @@ public interface UserService extends IService<User>, UserDetailsService {
      */
     IPage<UserRankingResponse> getRankingUser(UserPageListRequest request);
 
+    /**
+     * 计算用户积分
+     * @param id
+     * @param integral
+     * @return
+     */
+    Boolean updateIntegerById(Integer id,Integer integral);
+
 }
