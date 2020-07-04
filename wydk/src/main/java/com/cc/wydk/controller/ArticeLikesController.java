@@ -52,6 +52,16 @@ public class ArticeLikesController {
         return new ResultBean<>(articeLikesService.getById(request.getId()));
     }
 
+    @PostMapping("/isUserLike")
+    @ApiOperation(value = "用户是否点赞过")
+    public ResultBean<Boolean> isUserLike(@Valid @RequestBody ArticeLikesDeleteRequest request) {
+        QueryWrapper<ArticeLikes> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("artice_id", request.getArticeId());
+        queryWrapper.eq("type", request.getType());
+        queryWrapper.eq("user_id", UserUtils.getUserId());
+        return new ResultBean<>(null == articeLikesService.getOne(queryWrapper) ? false : true);
+    }
+
     @PostMapping("/del")
     @ApiOperation(value = "文章点赞刪除")
     public ResultBean<Boolean> getDelete(@Valid @RequestBody ArticeLikesDeleteRequest request) {

@@ -66,4 +66,14 @@ public class ArticeCollectionController {
         return new ResultBean<>(articeCollectionService.remove(queryWrapper));
     }
 
+    @PostMapping("/isUserCollection")
+    @ApiOperation(value = "查询用户是否收藏")
+    public ResultBean<Boolean> isUserCollection(@Valid @RequestBody ArticeCollectionDeleteRequest request) {
+        QueryWrapper<ArticeCollection> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("artice_id", request.getArticeId());
+        queryWrapper.eq("type", request.getType());
+        queryWrapper.eq("user_id", UserUtils.getUserId());
+        return new ResultBean<>(null == articeCollectionService.getOne(queryWrapper) ? false : true);
+    }
+
 }
