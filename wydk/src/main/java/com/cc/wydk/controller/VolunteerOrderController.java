@@ -3,6 +3,7 @@ package com.cc.wydk.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.entity.VolunteerOrder;
+import com.cc.wydk.exception.BusinessInterfaceException;
 import com.cc.wydk.request.VolunteerOrderAddRequest;
 import com.cc.wydk.request.VolunteerOrderDetailRequest;
 import com.cc.wydk.request.VolunteerOrderUpdateRequest;
@@ -74,6 +75,10 @@ public class VolunteerOrderController {
     @PostMapping("/joinOrder")
     @ApiOperation(value = "接单")
     public Boolean joinOrder(@Valid @RequestBody VolunteerOrderDetailRequest request) {
+        User user = UserUtils.getUser();
+        if (user.getIdNumber() == null) {
+            throw new BusinessInterfaceException("您还不是志愿者请完善信息");
+        }
         VolunteerOrder byId = volunteerOrderService.getById(request.getId());
         if (null != byId) {
             if (byId.getUserId() == null) {

@@ -170,6 +170,10 @@ public class UserController {
     public Boolean join(@Valid @RequestBody UserJoinTeamLogAddRequest request) {
 
         if (null == request.getId()) {
+            User user = UserUtils.getUser();
+            if (user.getIdNumber() == null) {
+                throw new BusinessInterfaceException("您还不是志愿者请完善信息");
+            }
             UserJoinTemLog userJoinTemLog = new UserJoinTemLog();
             BeanUtils.copyProperties(request, userJoinTemLog);
             VolunteerTeam byId = volunteerTeamService.getById(request.getVolunteerTeamId());
