@@ -8,7 +8,7 @@ spring:
     druid:
       username: lxh
       password: lxh123456
-      url: jdbc:mysql://cdb-o742k9kc.bj.tencentcdb.com:10035/lxh?useSSL=true&verifyServerCertificate=false&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+      url: jdbc:mysql://cdb-o742k9kc.bj.tencentcdb.com:10035/lxh?useSSL=true&verifyServerCertificate=false&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT
       driver-class-name: com.mysql.cj.jdbc.Driver
       initial-size: 5
       min-idle: 5
