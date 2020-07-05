@@ -69,7 +69,7 @@ public class UserController {
     @PostMapping("/updateUser")
     @ApiOperation(value = "修改用户信息")
     public Boolean updateUser(@RequestBody UserUpdateRequest request) {
-        User byId = userService.getById(request.getId());
+        User byId = userService.getById(UserUtils.getUserId());
         if (null == byId) {
             throw new BusinessInterfaceException("不能存在的用户");
         }
