@@ -2,6 +2,7 @@ package com.cc.wydk.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cc.wydk.entity.PrizeConvertLog;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.entity.UserJoinTemLog;
@@ -87,17 +88,34 @@ public class UserController {
     }
 
     @PostMapping("/getUserInteger")
-    @ApiOperation(value = "登录获取用户积分信息")
-    public ResultBean<Integer> addUser(@Valid @RequestBody UserGetIntegerRequest request) {
+    @ApiOperation(value = "登录获取用户信息")
+    public ResultBean<User> addUser(@Valid @RequestBody UserGetIntegerRequest request) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         User user = userService.loginByUserName(request.getPhone());
 
         if (!bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BusinessInterfaceException("账户密码不正确");
         }
-
-        return new ResultBean<>(user.getIntegral());
+        user.setPassword("");
+        return new ResultBean<>(user);
     }
+
+
+    @PostMapping("/userPrizeConvertPageList")
+    @ApiOperation(value = "用户积分兑换列表")
+    public ResultBean<IPage<PrizeConvertLog>> userPrizeConvertPageList(@Valid @RequestBody UserPrizeConvertPageListRequest request) {
+        Page<PrizeConvertLog> page = new Page<>(request.getPageIndex(), request.getPageSize());
+        QueryWrapper<PrizeConvertLog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("phone", request.getPhone());
+        return new ResultBean<>(prizeConvertService.page(page, queryWrapper));
+    }
+
+    @PostMapping("/userPrizeConvertDetail")
+    @ApiOperation(value = "用户积分兑换详情")
+    public ResultBean<PrizeConvertLog> userPrizeConvertPageList(@Valid @RequestBody UserPrizeConvertDetailRequest request) {
+        return new ResultBean<>(prizeConvertService.getById(request.getId()));
+    }
+
 
     @PostMapping("/userPrizeConvert")
     @ApiOperation(value = "用户积分兑换记录")

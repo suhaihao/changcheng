@@ -40,7 +40,7 @@ public class ArticeMessageServiceImpl extends ServiceImpl<ArticeMessageMapper, A
             map.put("artice_id", request.getArticeId());
         }
         if (request.getIsUser()) {
-            return articeMessageMapper.getArticeMessagePageList(page, map, UserUtils.getUserId());
+            return articeMessageMapper.getArticeMessageUserPageList(page, map, UserUtils.getUserId());
         } else {
             return articeMessageMapper.getArticeMessagePageList(page, map);
         }
