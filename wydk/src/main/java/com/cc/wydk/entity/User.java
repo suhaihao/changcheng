@@ -44,6 +44,18 @@ public class User implements UserDetails, Serializable {
     @TableField(value = "phone")
     private String phone;
 
+    @ApiModelProperty("身份证")
+    @TableField(value = "id_number")
+    private Integer idNumber;
+
+    @ApiModelProperty("政治面貌")
+    @TableField(value = "political_outlook")
+    private String politicalOutlook;
+
+    @ApiModelProperty("工作单位")
+    @TableField(value = "work_unit")
+    private String workUnit;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

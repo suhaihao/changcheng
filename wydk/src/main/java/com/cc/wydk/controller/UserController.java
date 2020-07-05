@@ -1,5 +1,6 @@
 package com.cc.wydk.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -63,6 +64,26 @@ public class UserController {
     @ApiOperation(value = "获取用户排行")
     public IPage<UserRankingResponse> rankingUser(@RequestBody UserPageListRequest request) {
         return userService.getRankingUser(request);
+    }
+
+    @PostMapping("/updateUser")
+    @ApiOperation(value = "修改用户信息")
+    public Boolean updateUser(@RequestBody UserUpdateRequest request) {
+        User byId = userService.getById(request.getId());
+        if (null == byId) {
+            throw new BusinessInterfaceException("不能存在的用户");
+        }
+        if (!StringUtils.isEmpty(request.getPassword())) {
+            request.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
+        }
+        if (!StringUtils.isEmpty(request.getPhone())) {
+            User user = userService.loginByUserName(request.getPhone());
+            if (null != user) {
+                throw new BusinessInterfaceException("手机号已存在");
+            }
+        }
+        BeanUtils.copyProperties(request, byId);
+        return userService.updateById(byId);
     }
 
     @PostMapping("/addUser")
