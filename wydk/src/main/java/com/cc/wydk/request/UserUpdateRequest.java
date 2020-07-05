@@ -34,7 +34,7 @@ public class UserUpdateRequest {
     private String phone;
 
     @ApiModelProperty("身份证")
-    private Integer idNumber;
+    private Long idNumber;
 
     @ApiModelProperty("政治面貌")
     private String politicalOutlook;

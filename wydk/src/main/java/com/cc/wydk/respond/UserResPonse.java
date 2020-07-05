@@ -34,7 +34,7 @@ public class UserResPonse {
 
     @ApiModelProperty("身份证")
     @TableField(value = "id_number")
-    private Integer idNumber;
+    private Long idNumber;
 
     @ApiModelProperty("政治面貌")
     @TableField(value = "political_outlook")
