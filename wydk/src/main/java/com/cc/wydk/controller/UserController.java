@@ -113,7 +113,9 @@ public class UserController {
     public ResultBean<User> addUser(@Valid @RequestBody UserGetIntegerRequest request) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         User user = userService.loginByUserName(request.getPhone());
-
+        if (null == user) {
+            throw new BusinessInterfaceException("账户不存在");
+        }
         if (!bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BusinessInterfaceException("账户密码不正确");
         }
