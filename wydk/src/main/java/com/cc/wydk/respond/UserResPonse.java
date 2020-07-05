@@ -11,10 +11,12 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
+@Data
 @ApiModel("用户表详情返回体")
 public class UserResPonse {
 
@@ -29,6 +31,18 @@ public class UserResPonse {
 
     @ApiModelProperty("手机号")
     private String phone;
+
+    @ApiModelProperty("身份证")
+    @TableField(value = "id_number")
+    private Integer idNumber;
+
+    @ApiModelProperty("政治面貌")
+    @TableField(value = "political_outlook")
+    private String politicalOutlook;
+
+    @ApiModelProperty("工作单位")
+    @TableField(value = "work_unit")
+    private String workUnit;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -81,139 +95,5 @@ public class UserResPonse {
     @ApiModelProperty("活动打开次数")
     private Integer activitySignCount;
 
-    public Integer getOrderCount() {
-        return OrderCount;
-    }
 
-    public void setOrderCount(Integer orderCount) {
-        OrderCount = orderCount;
-    }
-
-    public Integer getActivitySignCount() {
-        return activitySignCount;
-    }
-
-    public void setActivitySignCount(Integer activitySignCount) {
-        this.activitySignCount = activitySignCount;
-    }
-
-    public Integer getIntegral() {
-        return integral;
-    }
-
-    public void setIntegral(Integer integral) {
-        this.integral = integral;
-    }
-
-    public String getTeam() {
-        return team;
-    }
-
-    public void setTeam(String team) {
-        this.team = team;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public LocalDateTime getBornDate() {
-        return bornDate;
-    }
-
-    public void setBornDate(LocalDateTime bornDate) {
-        this.bornDate = bornDate;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getHeadImg() {
-        return headImg;
-    }
-
-    public void setHeadImg(String headImg) {
-        this.headImg = headImg;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(Integer createBy) {
-        this.createBy = createBy;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(Integer updateBy) {
-        this.updateBy = updateBy;
-    }
 }
