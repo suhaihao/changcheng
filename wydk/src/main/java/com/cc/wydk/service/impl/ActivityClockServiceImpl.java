@@ -160,8 +160,8 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         Integer userId = UserUtils.getUserId();
         queryWrapper.eq("user_id", userId);
-        if (StringUtils.isEmpty(request.getStatus())) {
-            queryWrapper.eq("status", "1");
+        if (!StringUtils.isEmpty(request.getStatus())) {
+            queryWrapper.eq("status", request.getStatus());
         }
         queryWrapper.groupBy("activity_id");
         queryWrapper.select("activity_id");
