@@ -172,41 +172,43 @@ public class UserController {
     @ApiOperation(value = "用户加入团队申请")
     public Boolean join(@Valid @RequestBody UserJoinTeamLogAddRequest request) {
 
-        if (null == request.getId()) {
-            User user = UserUtils.getUser();
-            if (user.getIdNumber() == null) {
-                throw new BusinessInterfaceException("您还不是志愿者请完善信息");
-            }
-            if (!StringUtils.isEmpty(user.getTeam()) && !user.getTeam().equals("0")) {
-                throw new BusinessInterfaceException("已有团队");
-            }
+        User user = UserUtils.getUser();
+        if (user.getIdNumber() == null) {
+            throw new BusinessInterfaceException("您还不是志愿者请完善信息");
+        }
+        if (!StringUtils.isEmpty(user.getTeam()) && !user.getTeam().equals("0")) {
+            throw new BusinessInterfaceException("已有团队");
+        }
+
+        QueryWrapper<UserJoinTemLog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", UserUtils.getUserId());
+        UserJoinTemLog one = userJoinTemLogService.getOne(queryWrapper);
+        if (null != one) {
+            throw new BusinessInterfaceException("已申请记录请勿重复申请");
+        }
+        VolunteerTeam byId = volunteerTeamService.getById(request.getVolunteerTeamId());
+        if (null == byId) {
+            throw new BusinessInterfaceException("未查到团队信息");
+        }
+        if (request.getIsExamine() == 0) {
             UserJoinTemLog userJoinTemLog = new UserJoinTemLog();
             BeanUtils.copyProperties(request, userJoinTemLog);
-            VolunteerTeam byId = volunteerTeamService.getById(request.getVolunteerTeamId());
-            if (null == byId) {
-                throw new BusinessInterfaceException("未查到团队信息");
-            }
             userJoinTemLog.setUserId(UserUtils.getUserId());
             return userJoinTemLogService.save(userJoinTemLog);
-        } else {
-            if (request.getIsExamine() == 1) {
-                VolunteerTeam byId = volunteerTeamService.getById(request.getVolunteerTeamId());
-                if (null == byId) {
-                    throw new BusinessInterfaceException("未查到团队信息");
-                }
-                User byId1 = userService.getById(request.getId());
-                if (null == byId1) {
-                    throw new BusinessInterfaceException("未查到用户信息");
-                }
-                if (!StringUtils.isEmpty(byId1.getTeam()) && !byId1.getTeam().equals("0")) {
-                    throw new BusinessInterfaceException("已有团队");
-                }
-                byId1.setTeam(String.valueOf(byId.getId()));
-                userService.updateById(byId1);
-                return true;
-            }
-            return false;
         }
+        if (request.getIsExamine() == 1) {
+            User byId1 = userService.getById(request.getId());
+            if (null == byId1) {
+                throw new BusinessInterfaceException("未查到用户信息");
+            }
+            if (!StringUtils.isEmpty(byId1.getTeam()) && !byId1.getTeam().equals("0")) {
+                throw new BusinessInterfaceException("已有团队");
+            }
+            byId1.setTeam(String.valueOf(byId.getId()));
+            userService.updateById(byId1);
+            return true;
+        }
+        return false;
     }
 
 }
