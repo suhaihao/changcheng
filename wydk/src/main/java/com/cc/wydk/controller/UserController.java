@@ -177,7 +177,7 @@ public class UserController {
             if (user.getIdNumber() == null) {
                 throw new BusinessInterfaceException("您还不是志愿者请完善信息");
             }
-            if (!StringUtils.isEmpty(user.getTeam())) {
+            if (!StringUtils.isEmpty(user.getTeam()) && !user.getTeam().equals("0")) {
                 throw new BusinessInterfaceException("已有团队");
             }
             UserJoinTemLog userJoinTemLog = new UserJoinTemLog();
@@ -198,7 +198,7 @@ public class UserController {
                 if (null == byId1) {
                     throw new BusinessInterfaceException("未查到用户信息");
                 }
-                if (!StringUtils.isEmpty(byId1.getTeam())) {
+                if (!StringUtils.isEmpty(byId1.getTeam()) && !byId1.getTeam().equals("0")) {
                     throw new BusinessInterfaceException("已有团队");
                 }
                 byId1.setTeam(String.valueOf(byId.getId()));
