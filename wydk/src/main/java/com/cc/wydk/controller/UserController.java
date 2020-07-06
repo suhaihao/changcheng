@@ -82,6 +82,7 @@ public class UserController {
                 throw new BusinessInterfaceException("手机号已存在");
             }
         }
+        request.setId(byId.getId());
         BeanUtils.copyProperties(request, byId);
         return userService.updateById(byId);
     }
