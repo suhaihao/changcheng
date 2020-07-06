@@ -43,6 +43,10 @@ public class ArticeLikes {
     @TableField(value = "type")
     private Integer type;
 
+    @ApiModelProperty("是否删除0没有1有")
+    @TableField(value = " is_delete")
+    private Integer isDelete;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

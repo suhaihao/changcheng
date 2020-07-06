@@ -33,6 +33,7 @@ public class ArticeLikesServiceImpl extends ServiceImpl<ArticeLikesMapper, Artic
         if (null != request.getType()) {
             queryWrapperUser.eq("type", request.getType());
         }
+        queryWrapperUser.eq("is_delete", "0");
         queryWrapperUser.orderByDesc("create_time");
         return articeLikesMapper.selectPage(page, queryWrapperUser);
     }
@@ -44,6 +45,7 @@ public class ArticeLikesServiceImpl extends ServiceImpl<ArticeLikesMapper, Artic
         if (null != request.getType()) {
             queryWrapper.eq("type", request.getType());
         }
+        queryWrapper.eq("is_delete", "0");
         return articeLikesMapper.selectCount(queryWrapper);
     }
 }

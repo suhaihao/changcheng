@@ -59,6 +59,7 @@ public class ArticeLikesController {
         queryWrapper.eq("artice_id", request.getArticeId());
         queryWrapper.eq("type", request.getType());
         queryWrapper.eq("user_id", UserUtils.getUserId());
+        queryWrapper.eq("is_delete", "0");
         return new ResultBean<>(null == articeLikesService.getOne(queryWrapper) ? false : true);
     }
 
@@ -69,7 +70,12 @@ public class ArticeLikesController {
         queryWrapper.eq("artice_id", request.getArticeId());
         queryWrapper.eq("type", request.getType());
         queryWrapper.eq("user_id", UserUtils.getUserId());
-        return new ResultBean<>(articeLikesService.remove(queryWrapper));
+        ArticeLikes one = articeLikesService.getOne(queryWrapper);
+        if (null != one) {
+            one.setIsDelete(1);
+            return new ResultBean<>(articeLikesService.updateById(one));
+        }
+        return new ResultBean<>(false);
     }
 
     @PostMapping("/getLikeCount")
