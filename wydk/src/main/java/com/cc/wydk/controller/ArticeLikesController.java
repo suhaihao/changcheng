@@ -70,6 +70,7 @@ public class ArticeLikesController {
         queryWrapper.eq("artice_id", request.getArticeId());
         queryWrapper.eq("type", request.getType());
         queryWrapper.eq("user_id", UserUtils.getUserId());
+        queryWrapper.eq("is_delete", "0");
         ArticeLikes one = articeLikesService.getOne(queryWrapper);
         if (null != one) {
             one.setIsDelete(1);
