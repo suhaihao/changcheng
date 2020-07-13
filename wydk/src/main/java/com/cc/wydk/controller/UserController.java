@@ -146,7 +146,7 @@ public class UserController {
     public ResultBean<Boolean> userPrizeConvert(@Valid @RequestBody UserPrizeConvertRequest request) {
         User user = userService.loginByUserName(request.getPhone());
         if (null == user) {
-            throw new BusinessInterfaceException("不能存在的用户");
+            throw new BusinessInterfaceException("不存在的用户");
         }
         if (request.getIntegral() > 0) {
             if (user.getIntegral() < request.getIntegral()) {
