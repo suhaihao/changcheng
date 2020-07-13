@@ -3,6 +3,7 @@ package com.cc.wydk.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.ArticeLikes;
+import com.cc.wydk.exception.BusinessInterfaceException;
 import com.cc.wydk.request.*;
 import com.cc.wydk.response.ResultBean;
 import com.cc.wydk.service.ArticeLikesService;
@@ -38,6 +39,15 @@ public class ArticeLikesController {
     @PostMapping("/saveOrUpdate")
     @ApiOperation(value = "文章点赞添加修改")
     public ResultBean<Boolean> saveOrUpdate(@Valid @RequestBody ArticeLikesUpdateRequest request) {
+        QueryWrapper<ArticeLikes> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("artice_id", request.getArticeId());
+        queryWrapper.eq("type", request.getType());
+        queryWrapper.eq("user_id", UserUtils.getUserId());
+        queryWrapper.eq("is_delete", "0");
+        ArticeLikes one = articeLikesService.getOne(queryWrapper);
+        if (null != one) {
+            throw new BusinessInterfaceException("已经点赞过了");
+        }
         ArticeLikes artice = new ArticeLikes();
         BeanUtils.copyProperties(request, artice);
         artice.setCreateTime(LocalDateTime.now());
