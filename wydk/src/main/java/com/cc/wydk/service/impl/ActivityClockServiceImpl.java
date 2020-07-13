@@ -15,6 +15,7 @@ import com.cc.wydk.mapper.UserMapper;
 import com.cc.wydk.mapper.VolunteerTeamMapper;
 import com.cc.wydk.request.*;
 import com.cc.wydk.service.ActivityClockService;
+import com.cc.wydk.utils.LatLonUtil;
 import com.cc.wydk.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +100,10 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
             ActivityNotice activityNotice = activityNoticeMapper.selectById(request.getActivityId());
             if (null != activityClock) {
                 if (request.getStatus().equals("1")) {
+                    double v = LatLonUtil.GetDistance(activityNotice.getLongitude(), activityNotice.getLatitude(), request.getLongitude(), request.getLatitude());
+                    if (v > activityNotice.getRadius()) {
+                        throw new BusinessInterfaceException("未在打卡范围内");
+                    }
                     if (activityNotice.getStartTime().isAfter(LocalDateTime.now())) {
                         throw new BusinessInterfaceException("活动未开始");
                     }
@@ -108,6 +113,10 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                     activityClockMapper.updateById(activityClock);
                     return true;
                 } else if (request.getStatus().equals("2")) {
+                    double v = LatLonUtil.GetDistance(activityNotice.getLongitude(), activityNotice.getLatitude(), request.getLongitude(), request.getLatitude());
+                    if (v > activityNotice.getRadius()) {
+                        throw new BusinessInterfaceException("未在打卡范围内");
+                    }
                     if (activityNotice.getEndTime().isBefore(LocalDateTime.now())) {
                         throw new BusinessInterfaceException("活动已结束");
                     }
