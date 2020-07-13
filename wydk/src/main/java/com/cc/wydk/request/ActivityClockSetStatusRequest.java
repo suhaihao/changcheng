@@ -1,5 +1,6 @@
 package com.cc.wydk.request;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,5 +19,13 @@ public class ActivityClockSetStatusRequest {
 
     @ApiModelProperty("状态0暂未签到1签到开始2签到结束")
     private String status;
+
+    @ApiModelProperty("精度")
+    @TableField(value = "longitude")
+    private Double longitude;
+
+    @ApiModelProperty("纬度")
+    @TableField(value = "latitude")
+    private Double latitude;
 
 }
