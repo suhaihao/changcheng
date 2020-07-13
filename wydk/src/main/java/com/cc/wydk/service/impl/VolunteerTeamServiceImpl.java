@@ -29,7 +29,12 @@ public class VolunteerTeamServiceImpl extends ServiceImpl<VolunteerTeamMapper, V
     @Override
     public IPage<VolunteerTeamResponse> getRankingPageList(VolunteerTeamPageListRequest request) {
         Page<VolunteerTeamResponse> page = new Page<>(request.getPageIndex(), request.getPageSize());
-        return volunteerTeamMapper.getRankingList(page);
+        if (!StringUtils.isEmpty(request.getTeamName())) {
+            String teameName = "%" + request.getTeamName() + "%";
+            return volunteerTeamMapper.getRankingByteamList(page, teameName);
+        } else {
+            return volunteerTeamMapper.getRankingList(page);
+        }
     }
 
     @Override
