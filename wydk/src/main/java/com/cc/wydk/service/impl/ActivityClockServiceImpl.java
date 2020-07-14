@@ -107,6 +107,8 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                     if (activityNotice.getStartTime().isAfter(LocalDateTime.now())) {
                         throw new BusinessInterfaceException("活动未开始");
                     }
+                    activityClock.setLongitude(request.getLongitude());
+                    activityClock.setLatitude(request.getLatitude());
                     activityClock.setStartTime(LocalDateTime.now());
                     activityClock.setStatus(request.getStatus());
                     activityClock.setUpdateTime(LocalDateTime.now());
@@ -120,6 +122,8 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                     if (activityNotice.getEndTime().isBefore(LocalDateTime.now())) {
                         throw new BusinessInterfaceException("活动已结束");
                     }
+                    activityClock.setLongitude(request.getLongitude());
+                    activityClock.setLatitude(request.getLatitude());
                     activityClock.setEndTime(LocalDateTime.now());
                     activityClock.setStatus(request.getStatus());
                     activityClock.setUpdateTime(LocalDateTime.now());

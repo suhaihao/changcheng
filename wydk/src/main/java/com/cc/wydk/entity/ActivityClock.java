@@ -79,5 +79,12 @@ public class ActivityClock {
     @TableField(value = "sign_up")
     private String signUp;
 
+    @ApiModelProperty("经度")
+    @TableField(value = "longitude")
+    private Double longitude;
+
+    @ApiModelProperty("纬度")
+    @TableField(value = "latitude")
+    private Double latitude;
 
 }
