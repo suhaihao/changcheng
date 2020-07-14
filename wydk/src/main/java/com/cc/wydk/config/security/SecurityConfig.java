@@ -95,6 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/clock/getPageClockList").permitAll()
                 .antMatchers("/team/getDetail").permitAll()
                 .antMatchers("/team/getByRankingPageList").permitAll()
+                .antMatchers("/shop/getPageList").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v2/**").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()

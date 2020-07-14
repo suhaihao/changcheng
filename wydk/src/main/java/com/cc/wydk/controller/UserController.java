@@ -4,19 +4,13 @@ import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.cc.wydk.entity.PrizeConvertLog;
-import com.cc.wydk.entity.User;
-import com.cc.wydk.entity.UserJoinTemLog;
-import com.cc.wydk.entity.VolunteerTeam;
+import com.cc.wydk.entity.*;
 import com.cc.wydk.exception.BusinessInterfaceException;
 import com.cc.wydk.request.*;
 import com.cc.wydk.respond.UserRankingResponse;
 import com.cc.wydk.respond.UserResPonse;
 import com.cc.wydk.response.ResultBean;
-import com.cc.wydk.service.PrizeConvertService;
-import com.cc.wydk.service.UserJoinTemLogService;
-import com.cc.wydk.service.UserService;
-import com.cc.wydk.service.VolunteerTeamService;
+import com.cc.wydk.service.*;
 import com.cc.wydk.utils.UserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,13 +32,15 @@ public class UserController {
     private final UserJoinTemLogService userJoinTemLogService;
     private final VolunteerTeamService volunteerTeamService;
     private final PrizeConvertService prizeConvertService;
+    private final QhShopService qhShopService;
 
     @Autowired
-    public UserController(UserService userService, UserJoinTemLogService userJoinTemLogService, VolunteerTeamService volunteerTeamService, PrizeConvertService prizeConvertService) {
+    public UserController(UserService userService, UserJoinTemLogService userJoinTemLogService, VolunteerTeamService volunteerTeamService, PrizeConvertService prizeConvertService, QhShopService qhShopService) {
         this.userService = userService;
         this.userJoinTemLogService = userJoinTemLogService;
         this.volunteerTeamService = volunteerTeamService;
         this.prizeConvertService = prizeConvertService;
+        this.qhShopService = qhShopService;
     }
 
 
@@ -157,6 +153,14 @@ public class UserController {
             if (user.getIntegral() < request.getIntegral() * -1) {
                 throw new BusinessInterfaceException("用户积分不足");
             }
+        }
+        QhShop byId = qhShopService.getById(request.getShopId());
+        if (null == byId) {
+            throw new BusinessInterfaceException("商户不存在");
+        }
+
+        if (!byId.getShopPass().equals(request.getShopPass())) {
+            throw new BusinessInterfaceException("商户密码不正确");
         }
         userService.updateIntegerById(user.getId(), request.getIntegral());
         PrizeConvertLog prizeConvertLog = new PrizeConvertLog();
