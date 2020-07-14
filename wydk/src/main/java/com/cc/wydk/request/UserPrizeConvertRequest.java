@@ -22,4 +22,12 @@ public class UserPrizeConvertRequest {
     @ApiModelProperty("手机号")
     private String phone;
 
+    @NotNull(message = "商户id不能为空")
+    @ApiModelProperty("商户id")
+    private Integer shopId;
+
+    @NotNull(message = "商户密码不能为空")
+    @ApiModelProperty("商户密码")
+    private String shopPass;
+
 }
