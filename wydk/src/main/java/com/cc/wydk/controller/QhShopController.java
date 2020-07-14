@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/shop")
@@ -35,7 +36,11 @@ public class QhShopController {
     @ApiOperation(value = "获取商户列表接口")
     public ResultBean<IPage<QhShop>> getByPageList(@RequestBody QhShopPageListRequest request) {
         Page<QhShop> page = new Page<>(request.getPageIndex(), request.getPageSize());
-        return new ResultBean<>(qhShopService.page(page));
+        List<QhShop> records = qhShopService.page(page).getRecords();
+        for (QhShop qhShop : records) {
+            qhShop.setShopPass("");
+        }
+        return new ResultBean<>(page);
     }
 
     @PostMapping("/saveOrUpdate")
