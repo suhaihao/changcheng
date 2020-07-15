@@ -192,6 +192,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         List<ActivityClockResponse> activityClockResponses = new ArrayList<>();
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         Integer userId = UserUtils.getUserId();
+        queryWrapper.select("id", "activity_id", "user_id", "start_time", "end_time", "create_time", "update_time", "sum(duration) duration", "status", "sign_up", "longitude", "latitude");
         queryWrapper.eq("user_id", userId);
         if (!StringUtils.isEmpty(request.getStatus())) {
             queryWrapper.eq("status", request.getStatus());
