@@ -5,6 +5,7 @@ import com.cc.wydk.entity.ActivityClock;
 import com.cc.wydk.entity.ActivityNotice;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.request.*;
+import com.cc.wydk.response.ActivityClockResponse;
 import com.cc.wydk.response.ResultBean;
 import com.cc.wydk.service.ActivityClockService;
 import io.swagger.annotations.Api;
@@ -61,6 +62,12 @@ public class ActivityClockController {
     @ApiOperation(value = "获取用户参加过的活动列表")
     public List<ActivityNotice> getPageNoticeList(@RequestBody ActivityNoticePageListRequest request) {
         return activityClockService.getPageNoticeList(request);
+    }
+
+    @PostMapping("/getUserActivityClock")
+    @ApiOperation(value = "获取用户活动打卡记录")
+    public List<ActivityClockResponse> getUserActivityClock(@RequestBody ActivityNoticePageListRequest request) {
+        return activityClockService.getUserActivityClock(request);
     }
 
 

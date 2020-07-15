@@ -1,4 +1,4 @@
-package com.cc.wydk.entity;
+package com.cc.wydk.response;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -19,9 +19,9 @@ import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel("打卡表")
+@ApiModel("打卡返回体")
 @TableName("activity_clock")
-public class ActivityClock {
+public class ActivityClockResponse {
 
     @ApiModelProperty("唯一id")
     @TableId(value = "id", type = IdType.AUTO)
@@ -86,5 +86,17 @@ public class ActivityClock {
     @ApiModelProperty("纬度")
     @TableField(value = "latitude")
     private Double latitude;
+
+    @ApiModelProperty("标题")
+    @TableField(value = "title")
+    private String title;
+
+    @ApiModelProperty("地址")
+    @TableField(value = "address")
+    private String address;
+
+    @ApiModelProperty("活动图片")
+    @TableField(value = "imgs")
+    private String imgs;
 
 }

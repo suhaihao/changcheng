@@ -14,6 +14,7 @@ import com.cc.wydk.mapper.ActivityNoticeMapper;
 import com.cc.wydk.mapper.UserMapper;
 import com.cc.wydk.mapper.VolunteerTeamMapper;
 import com.cc.wydk.request.*;
+import com.cc.wydk.response.ActivityClockResponse;
 import com.cc.wydk.service.ActivityClockService;
 import com.cc.wydk.utils.LatLonUtil;
 import com.cc.wydk.utils.UserUtils;
@@ -184,6 +185,35 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
             return activityNoticeMapper.selectBatchIds(collect);
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<ActivityClockResponse> getUserActivityClock(ActivityNoticePageListRequest request) {
+        List<ActivityClockResponse> activityClockResponses = new ArrayList<>();
+        QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
+        Integer userId = UserUtils.getUserId();
+        queryWrapper.eq("user_id", userId);
+        if (!StringUtils.isEmpty(request.getStatus())) {
+            queryWrapper.eq("status", request.getStatus());
+        }
+        queryWrapper.groupBy("activity_id");
+        queryWrapper.select("activity_id");
+        List<ActivityClock> activityClocks = activityClockMapper.selectList(queryWrapper);
+        if (!CollectionUtils.isEmpty(activityClocks)) {
+            List<Integer> collect = activityClocks.stream().map(ActivityClock::getActivityId).collect(Collectors.toList());
+            List<ActivityNotice> activityNotices = activityNoticeMapper.selectBatchIds(collect);
+            for (ActivityClock activityClock : activityClocks) {
+                for (ActivityNotice activityNotice : activityNotices) {
+                    if (activityClock.getActivityId() == activityNotice.getId()) {
+                        ActivityClockResponse activityClockResponse = new ActivityClockResponse();
+                        BeanUtils.copyProperties(activityClock, activityClockResponse);
+                        BeanUtils.copyProperties(activityNotice, activityClockResponse);
+                        activityClockResponses.add(activityClockResponse);
+                    }
+                }
+            }
+        }
+        return activityClockResponses;
     }
 
     @Override

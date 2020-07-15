@@ -6,6 +6,7 @@ import com.cc.wydk.entity.ActivityClock;
 import com.cc.wydk.entity.ActivityNotice;
 import com.cc.wydk.entity.User;
 import com.cc.wydk.request.*;
+import com.cc.wydk.response.ActivityClockResponse;
 
 import java.util.List;
 
@@ -58,6 +59,14 @@ public interface ActivityClockService extends IService<ActivityClock> {
      * @return
      */
     List<ActivityNotice> getPageNoticeList(ActivityNoticePageListRequest request);
+
+    /**
+     * 分页获取当前用户参与的活动的打卡记录
+     *
+     * @param request
+     * @return
+     */
+    List<ActivityClockResponse> getUserActivityClock(ActivityNoticePageListRequest request);
 
     /**
      * 根据用户id查询数量
