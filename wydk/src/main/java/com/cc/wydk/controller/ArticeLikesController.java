@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.ArticeLikes;
 import com.cc.wydk.exception.BusinessInterfaceException;
 import com.cc.wydk.request.*;
+import com.cc.wydk.response.ArticeLikesResponse;
 import com.cc.wydk.response.ResultBean;
 import com.cc.wydk.service.ArticeLikesService;
 import com.cc.wydk.utils.UserUtils;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/articeLikes")
@@ -93,6 +95,12 @@ public class ArticeLikesController {
     @ApiOperation(value = "获取文章点赞总数")
     public ResultBean<Integer> getLikeCount(@Valid @RequestBody ArticeLikesCountRequest request) {
         return new ResultBean<>(articeLikesService.getLikesCount(request));
+    }
+
+    @PostMapping("/getLikeList")
+    @ApiOperation(value = "获取用户收藏列表")
+    public ResultBean<List<ArticeLikesResponse>> getLikeList(@Valid @RequestBody ArticeLikesPageListRequest request) {
+        return new ResultBean<>(articeLikesService.getLikePageList(request));
     }
 
 }
