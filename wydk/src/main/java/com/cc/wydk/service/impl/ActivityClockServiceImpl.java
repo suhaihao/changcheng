@@ -192,13 +192,12 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         List<ActivityClockResponse> activityClockResponses = new ArrayList<>();
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         Integer userId = UserUtils.getUserId();
-        queryWrapper.select("id", "activity_id", "user_id", "start_time", "end_time", "create_time", "update_time", "sum(duration) duration", "status", "sign_up", "longitude", "latitude");
         queryWrapper.eq("user_id", userId);
         if (!StringUtils.isEmpty(request.getStatus())) {
             queryWrapper.eq("status", request.getStatus());
         }
         queryWrapper.groupBy("activity_id");
-        queryWrapper.select("activity_id");
+        queryWrapper.select("id", "activity_id", "user_id", "start_time", "end_time", "create_time", "update_time", "sum(duration) duration", "status", "sign_up", "longitude", "latitude");
         List<ActivityClock> activityClocks = activityClockMapper.selectList(queryWrapper);
         if (!CollectionUtils.isEmpty(activityClocks)) {
             List<Integer> collect = activityClocks.stream().map(ActivityClock::getActivityId).collect(Collectors.toList());
@@ -207,8 +206,8 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                 for (ActivityNotice activityNotice : activityNotices) {
                     if (activityClock.getActivityId() == activityNotice.getId()) {
                         ActivityClockResponse activityClockResponse = new ActivityClockResponse();
-                        BeanUtils.copyProperties(activityClock, activityClockResponse);
                         BeanUtils.copyProperties(activityNotice, activityClockResponse);
+                        BeanUtils.copyProperties(activityClock, activityClockResponse);
                         activityClockResponses.add(activityClockResponse);
                     }
                 }
