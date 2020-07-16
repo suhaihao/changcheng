@@ -62,7 +62,6 @@ public class ArticeCollectionServiceImpl extends ServiceImpl<ArticCollectionMapp
         if (null != request.getType()) {
             queryWrapperUser.eq("type", request.getType());
         }
-        queryWrapperUser.eq("is_delete", "0");
         queryWrapperUser.orderByDesc("create_time");
         IPage<ArticeCollection> articeCollectionIPage = articCollectionMapper.selectPage(page, queryWrapperUser);
         List<ArticeCollection> records = articeCollectionIPage.getRecords();
