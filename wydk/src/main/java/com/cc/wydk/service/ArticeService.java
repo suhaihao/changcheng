@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.cc.wydk.entity.Artice;
 import com.cc.wydk.request.ArticePageListRequest;
 
+import java.util.List;
+
 public interface ArticeService extends IService<Artice> {
 
     /**
@@ -12,5 +14,4 @@ public interface ArticeService extends IService<Artice> {
      * @return
      */
     IPage<Artice> getPageList(ArticePageListRequest request);
-
 }

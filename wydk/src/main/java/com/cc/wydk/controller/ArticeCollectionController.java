@@ -3,10 +3,8 @@ package com.cc.wydk.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.ArticeCollection;
-import com.cc.wydk.request.ArticeCollectionDeleteRequest;
-import com.cc.wydk.request.ArticeCollectionDetailRequest;
-import com.cc.wydk.request.ArticeCollectionPageListRequest;
-import com.cc.wydk.request.ArticeCollectionSaveRequest;
+import com.cc.wydk.request.*;
+import com.cc.wydk.response.ArticeCollectionResponse;
 import com.cc.wydk.response.ResultBean;
 import com.cc.wydk.service.ArticeCollectionService;
 import com.cc.wydk.utils.UserUtils;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/collection")
@@ -74,6 +73,12 @@ public class ArticeCollectionController {
         queryWrapper.eq("type", request.getType());
         queryWrapper.eq("user_id", UserUtils.getUserId());
         return new ResultBean<>(null == articeCollectionService.getOne(queryWrapper) ? false : true);
+    }
+
+    @PostMapping("/getUserCollectionList")
+    @ApiOperation(value = "文章收藏列表")
+    public ResultBean<List<ArticeCollectionResponse>> getUserCollectionList(@Valid @RequestBody ArticeCollectionPageListRequest request) {
+        return new ResultBean<>(articeCollectionService.getUserCollectionList(request));
     }
 
 }

@@ -2,11 +2,9 @@ package com.cc.wydk.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cc.wydk.entity.Artice;
-import com.cc.wydk.entity.CivilizationMicrofilm;
 import com.cc.wydk.request.ArticeDetailRequest;
 import com.cc.wydk.request.ArticePageListRequest;
 import com.cc.wydk.request.ArticeUpdateRequest;
-import com.cc.wydk.request.CivilizationMicrofilmPageListRequest;
 import com.cc.wydk.response.ResultBean;
 import com.cc.wydk.service.ArticeService;
 import io.swagger.annotations.Api;
