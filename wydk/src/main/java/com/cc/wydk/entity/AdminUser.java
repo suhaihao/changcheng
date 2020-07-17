@@ -47,8 +47,8 @@ public class AdminUser {
     private String headImg;
 
     @ApiModelProperty("级别")
-    @TableField(value = "leave")
-    private Integer leave;
+    @TableField(value = "user_level")
+    private Integer userLevel;
 
 
 }
