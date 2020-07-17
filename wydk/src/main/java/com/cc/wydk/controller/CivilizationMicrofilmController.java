@@ -59,4 +59,10 @@ public class CivilizationMicrofilmController {
         return civilizationMicrofilmService.getById(request.getId());
     }
 
+    @PostMapping("/del")
+    @ApiOperation(value = "文明微电影删除")
+    public Boolean delCivilizationMicrofilm(@Valid @RequestBody CivilizationMicrofilmDetailRequest request) {
+        return civilizationMicrofilmService.removeById(request.getId());
+    }
+
 }

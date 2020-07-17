@@ -72,6 +72,12 @@ public class VolunteerOrderController {
         return volunteerOrderService.getById(request.getId());
     }
 
+    @PostMapping("/del")
+    @ApiOperation(value = "删除点单")
+    public Boolean delVolunteerOrder(@Valid @RequestBody VolunteerOrderDetailRequest request) {
+        return volunteerOrderService.removeById(request.getId());
+    }
+
     @PostMapping("/joinOrder")
     @ApiOperation(value = "接单")
     public Boolean joinOrder(@Valid @RequestBody VolunteerOrderDetailRequest request) {

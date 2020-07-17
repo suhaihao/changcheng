@@ -50,5 +50,11 @@ public class TenProductsController {
         return tenProductsService.getById(request.getId());
     }
 
+    @PostMapping("/del")
+    @ApiOperation(value = "删除十大精品")
+    public Boolean delTenProducts(@Valid @RequestBody TenProductsDetailRequest request) {
+        return tenProductsService.removeById(request.getId());
+    }
+
 
 }

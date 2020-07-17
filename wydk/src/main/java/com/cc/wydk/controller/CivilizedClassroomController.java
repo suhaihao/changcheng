@@ -60,4 +60,10 @@ public class CivilizedClassroomController {
         return civilizedClassroomService.getById(request.getId());
     }
 
+    @PostMapping("/del")
+    @ApiOperation(value = "删除文明课堂")
+    public Boolean delCivilizedClassroom(@Valid @RequestBody CivilizedClassroomDetailRequest request) {
+        return civilizedClassroomService.removeById(request.getId());
+    }
+
 }

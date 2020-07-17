@@ -47,5 +47,11 @@ public class FiveFormController {
         return fiveFormService.getById(request.getId());
     }
 
+    @PostMapping("/del")
+    @ApiOperation(value = "删除五小形式")
+    public Boolean delFiveForm(@Valid @RequestBody FiveFormDetailRequest request) {
+        return fiveFormService.removeById(request.getId());
+    }
+
 
 }
