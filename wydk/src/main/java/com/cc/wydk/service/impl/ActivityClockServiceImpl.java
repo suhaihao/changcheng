@@ -71,6 +71,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
         queryWrapper.eq("user_id", UserUtils.getUserId());
+        queryWrapper.eq("is_check","1");
         queryWrapper.eq("sign_up", "1");
         return activityClockMapper.selectList(queryWrapper).size() > 0;
     }
@@ -82,6 +83,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
         queryWrapper.eq("user_id", UserUtils.getUserId());
+        queryWrapper.eq("is_check","1");
         queryWrapper.between("create_time", today_start, today_end);
         ActivityClock activityClock = activityClockMapper.selectOne(queryWrapper);
         return activityClock;
@@ -95,6 +97,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
         queryWrapper.eq("user_id", UserUtils.getUserId());
+        queryWrapper.eq("is_check","1");
         queryWrapper.between("create_time", today_start, today_end);
         ActivityClock activityClock = activityClockMapper.selectOne(queryWrapper);
         if (null != activityClock) {
@@ -160,6 +163,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
 
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
+        queryWrapper.eq("is_check","1");
         queryWrapper.groupBy("user_id");
         queryWrapper.select("user_id");
         List<Integer> collect = activityClockMapper.selectList(queryWrapper).stream().map(ActivityClock::getUserId).collect(Collectors.toList());
@@ -174,6 +178,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         Integer userId = UserUtils.getUserId();
         queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("is_check","1");
         if (!StringUtils.isEmpty(request.getStatus())) {
             queryWrapper.eq("status", request.getStatus());
         }
@@ -193,6 +198,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         Integer userId = UserUtils.getUserId();
         queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("is_check","1");
         if (!StringUtils.isEmpty(request.getStatus())) {
             queryWrapper.eq("status", request.getStatus());
         }
@@ -220,6 +226,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
     public Integer getCount(Integer userId) {
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", UserUtils.getUserId());
+        queryWrapper.eq("is_check","1");
         return activityClockMapper.selectCount(queryWrapper);
     }
 }

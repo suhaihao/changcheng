@@ -28,4 +28,10 @@ public class ActivityClockSetStatusRequest {
     @TableField(value = "latitude")
     private Double latitude;
 
+    @ApiModelProperty("开始照片")
+    private String startPhoto;
+
+    @ApiModelProperty("结束照片")
+    private String endPhoto;
+
 }

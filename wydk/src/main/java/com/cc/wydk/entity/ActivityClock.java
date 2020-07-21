@@ -87,4 +87,18 @@ public class ActivityClock {
     @TableField(value = "latitude")
     private Double latitude;
 
+    @ApiModelProperty("开始照片")
+    @TableField(value = "start_photo")
+    private String startPhoto;
+
+    @ApiModelProperty("结束照片")
+    @TableField(value = "end_photo")
+    private String endPhoto;
+
+    @ApiModelProperty("是否审核")
+    @TableField(value = "is_check")
+    private Integer isCheck;
+
+
+
 }
