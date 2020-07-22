@@ -11,38 +11,28 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Data
-@ApiModel("团队添加修改请求体")
-public class VolunteerTeamSaveOrUpdateRequest {
+@ApiModel("商品添加修改请求体")
+public class ProductSaveOrUpdateRequest {
 
     @ApiModelProperty("唯一id")
     private Integer id;
 
-    @ApiModelProperty("联系人")
-    private String manager;
+    @ApiModelProperty("名称")
+    private String productName;
 
-    @ApiModelProperty("手机")
-    private String phone;
+    @ApiModelProperty("类型")
+    private Integer productType;
 
-    @ApiModelProperty("地址")
-    private String address;
+    @ApiModelProperty("积分")
+    private Integer productInteger;
 
-    @ApiModelProperty("团队logo")
-    private String teamLogo;
-
-    @ApiModelProperty("团队名称")
-    private String teamName;
-
-    @ApiModelProperty("队伍标语")
-    private String teamSlogan;
-
-    @ApiModelProperty("队伍介绍")
-    private String teamIntro;
+    @ApiModelProperty("图片")
+    private String productImg;
 
 
 }
