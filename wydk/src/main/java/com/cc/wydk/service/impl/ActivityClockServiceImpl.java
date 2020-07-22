@@ -71,7 +71,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
         queryWrapper.eq("user_id", UserUtils.getUserId());
-        queryWrapper.eq("is_check","1");
+        queryWrapper.eq("is_check", "1");
         queryWrapper.eq("sign_up", "1");
         return activityClockMapper.selectList(queryWrapper).size() > 0;
     }
@@ -83,7 +83,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
         queryWrapper.eq("user_id", UserUtils.getUserId());
-        queryWrapper.eq("is_check","1");
+        queryWrapper.eq("is_check", "1");
         queryWrapper.between("create_time", today_start, today_end);
         ActivityClock activityClock = activityClockMapper.selectOne(queryWrapper);
         return activityClock;
@@ -97,20 +97,21 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
         queryWrapper.eq("user_id", UserUtils.getUserId());
-        queryWrapper.eq("is_check","1");
+        queryWrapper.eq("is_check", "1");
         queryWrapper.between("create_time", today_start, today_end);
         ActivityClock activityClock = activityClockMapper.selectOne(queryWrapper);
         if (null != activityClock) {
             ActivityNotice activityNotice = activityNoticeMapper.selectById(request.getActivityId());
             if (null != activityClock) {
                 if (request.getStatus().equals("1")) {
-                    double v = LatLonUtil.GetDistance(activityNotice.getLongitude(), activityNotice.getLatitude(), request.getLongitude(), request.getLatitude());
-                    if (v > activityNotice.getRadius()) {
-                        throw new BusinessInterfaceException("未在打卡范围内");
-                    }
+//                    double v = LatLonUtil.GetDistance(activityNotice.getLongitude(), activityNotice.getLatitude(), request.getLongitude(), request.getLatitude());
+//                    if (v > activityNotice.getRadius()) {
+//                        throw new BusinessInterfaceException("未在打卡范围内");
+//                    }
                     if (activityNotice.getStartTime().isAfter(LocalDateTime.now())) {
                         throw new BusinessInterfaceException("活动未开始");
                     }
+                    activityClock.setStartPhoto(request.getStartPhoto());
                     activityClock.setLongitude(request.getLongitude());
                     activityClock.setLatitude(request.getLatitude());
                     activityClock.setStartTime(LocalDateTime.now());
@@ -119,13 +120,14 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
                     activityClockMapper.updateById(activityClock);
                     return true;
                 } else if (request.getStatus().equals("2")) {
-                    double v = LatLonUtil.GetDistance(activityNotice.getLongitude(), activityNotice.getLatitude(), request.getLongitude(), request.getLatitude());
-                    if (v > activityNotice.getRadius()) {
-                        throw new BusinessInterfaceException("未在打卡范围内");
-                    }
+//                    double v = LatLonUtil.GetDistance(activityNotice.getLongitude(), activityNotice.getLatitude(), request.getLongitude(), request.getLatitude());
+//                    if (v > activityNotice.getRadius()) {
+//                        throw new BusinessInterfaceException("未在打卡范围内");
+//                    }
                     if (activityNotice.getEndTime().isBefore(LocalDateTime.now())) {
                         throw new BusinessInterfaceException("活动已结束");
                     }
+                    activityClock.setEndPhoto(request.getEndPhoto());
                     activityClock.setLongitude(request.getLongitude());
                     activityClock.setLatitude(request.getLatitude());
                     activityClock.setEndTime(LocalDateTime.now());
@@ -163,7 +165,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
 
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         queryWrapper.eq("activity_id", request.getActivityId());
-        queryWrapper.eq("is_check","1");
+        queryWrapper.eq("is_check", "1");
         queryWrapper.groupBy("user_id");
         queryWrapper.select("user_id");
         List<Integer> collect = activityClockMapper.selectList(queryWrapper).stream().map(ActivityClock::getUserId).collect(Collectors.toList());
@@ -178,7 +180,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         Integer userId = UserUtils.getUserId();
         queryWrapper.eq("user_id", userId);
-        queryWrapper.eq("is_check","1");
+        queryWrapper.eq("is_check", "1");
         if (!StringUtils.isEmpty(request.getStatus())) {
             queryWrapper.eq("status", request.getStatus());
         }
@@ -198,7 +200,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper();
         Integer userId = UserUtils.getUserId();
         queryWrapper.eq("user_id", userId);
-        queryWrapper.eq("is_check","1");
+        queryWrapper.eq("is_check", "1");
         if (!StringUtils.isEmpty(request.getStatus())) {
             queryWrapper.eq("status", request.getStatus());
         }
@@ -226,7 +228,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
     public Integer getCount(Integer userId) {
         QueryWrapper<ActivityClock> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", UserUtils.getUserId());
-        queryWrapper.eq("is_check","1");
+        queryWrapper.eq("is_check", "1");
         return activityClockMapper.selectCount(queryWrapper);
     }
 }
