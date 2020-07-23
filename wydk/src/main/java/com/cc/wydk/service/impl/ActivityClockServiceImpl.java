@@ -201,11 +201,14 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
         Integer userId = UserUtils.getUserId();
         queryWrapper.eq("user_id", userId);
         queryWrapper.eq("is_check", "1");
+        if (null != request.getActivity_id()) {
+            queryWrapper.eq("activity_id", request.getActivity_id());
+        }
         if (!StringUtils.isEmpty(request.getStatus())) {
             queryWrapper.eq("status", request.getStatus());
         }
         queryWrapper.groupBy("activity_id");
-        queryWrapper.select("id", "activity_id", "user_id", "start_time", "end_time", "create_time", "update_time", "sum(duration) duration", "status", "sign_up", "longitude", "latitude");
+        queryWrapper.select("id", "activity_id", "user_id", "start_time", "end_time", "create_time", "update_time", "sum(duration) duration", "status", "sign_up", "longitude", "latitude", "start_photo", "end_photo");
         List<ActivityClock> activityClocks = activityClockMapper.selectList(queryWrapper);
         if (!CollectionUtils.isEmpty(activityClocks)) {
             List<Integer> collect = activityClocks.stream().map(ActivityClock::getActivityId).collect(Collectors.toList());

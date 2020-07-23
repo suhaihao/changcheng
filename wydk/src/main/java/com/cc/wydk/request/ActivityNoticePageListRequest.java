@@ -15,4 +15,7 @@ public class ActivityNoticePageListRequest {
 
     @ApiModelProperty("状态")
     private String status;
+
+    @ApiModelProperty("活动id")
+    private Integer activity_id;
 }
