@@ -99,4 +99,12 @@ public class ActivityClockResponse {
     @TableField(value = "imgs")
     private String imgs;
 
+    @ApiModelProperty("开始图片")
+    @TableField(value = "start_photo")
+    private String startPhoto;
+
+    @ApiModelProperty("结束图片")
+    @TableField(value = "end_photo")
+    private String endPhoto;
+
 }
