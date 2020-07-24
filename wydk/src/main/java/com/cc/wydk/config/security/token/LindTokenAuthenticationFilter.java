@@ -3,6 +3,7 @@ package com.cc.wydk.config.security.token;
 import com.cc.wydk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -31,8 +32,8 @@ public class LindTokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader(this.tokenHeader);
         String username = request.getHeader(this.username);
-        if (!StringUtils.isEmpty(authHeader)) {
-            if (SecurityContextHolder.getContext().getAuthentication() == null && !StringUtils.isEmpty(username)) {
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            if (!StringUtils.isEmpty(authHeader) && !StringUtils.isEmpty(username)) {
                 UserDetails userDetails = this.userService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
