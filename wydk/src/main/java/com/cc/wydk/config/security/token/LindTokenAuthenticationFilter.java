@@ -1,7 +1,12 @@
 package com.cc.wydk.config.security.token;
 
+import com.cc.wydk.entity.AdminUser;
+import com.cc.wydk.enumDate.ExceptionEnum;
+import com.cc.wydk.exception.BusinessInterfaceException;
+import com.cc.wydk.service.AdminUserService;
 import com.cc.wydk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,19 +33,33 @@ public class LindTokenAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     public UserService userService;
 
+    @Autowired
+    public AdminUserService adminUserService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader(this.tokenHeader);
         String username = request.getHeader(this.username);
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
             if (!StringUtils.isEmpty(authHeader) && !StringUtils.isEmpty(username)) {
-                UserDetails userDetails = this.userService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
-                        request));
-                logger.info("authenticated user " + username + ", setting security context");
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                if (com.alibaba.druid.util.StringUtils.isNumber(username) && username.length() == 11) {
+                    UserDetails userDetails = this.userService.loadUserByUsername(username);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                            request));
+                    logger.info("authenticated user " + username + ", setting security context");
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    AdminUser byUserName = adminUserService.getByUserName(username);
+                    if (null == byUserName) {
+                        throw new BusinessInterfaceException(ExceptionEnum.FAILURELOGIN.getCode(), ExceptionEnum.FAILURELOGIN.getMsg());
+                    }
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(byUserName, null, null);
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    logger.info("authenticated user " + username + ", setting security context");
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
             filterChain.doFilter(request, response);
         } else {
