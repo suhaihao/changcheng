@@ -40,26 +40,24 @@ public class LindTokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader(this.tokenHeader);
         String username = request.getHeader(this.username);
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
-            if (!StringUtils.isEmpty(authHeader) && !StringUtils.isEmpty(username)) {
-                if (com.alibaba.druid.util.StringUtils.isNumber(username) && username.length() == 11) {
-                    UserDetails userDetails = this.userService.loadUserByUsername(username);
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
-                            request));
-                    logger.info("authenticated user " + username + ", setting security context");
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else {
-                    AdminUser byUserName = adminUserService.getByUserName(username);
-                    if (null == byUserName) {
-                        throw new BusinessInterfaceException(ExceptionEnum.FAILURELOGIN.getCode(), ExceptionEnum.FAILURELOGIN.getMsg());
-                    }
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(byUserName, null, null);
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    logger.info("authenticated user " + username + ", setting security context");
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (!StringUtils.isEmpty(authHeader) && !StringUtils.isEmpty(username)) {
+            if (com.alibaba.druid.util.StringUtils.isNumber(username) && username.length() == 11) {
+                UserDetails userDetails = this.userService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                        request));
+                logger.info("authenticated user " + username + ", setting security context");
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                AdminUser byUserName = adminUserService.getByUserName(username);
+                if (null == byUserName) {
+                    throw new BusinessInterfaceException(ExceptionEnum.FAILURELOGIN.getCode(), ExceptionEnum.FAILURELOGIN.getMsg());
                 }
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(byUserName, null, null);
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                logger.info("authenticated user " + username + ", setting security context");
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             filterChain.doFilter(request, response);
         } else {
