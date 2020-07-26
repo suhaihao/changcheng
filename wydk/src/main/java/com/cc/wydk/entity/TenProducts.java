@@ -11,10 +11,12 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
+@Data
 @ApiModel("十大精品")
 @TableName("ten_products")
 public class TenProducts {
@@ -43,7 +45,7 @@ public class TenProducts {
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-  @ApiModelProperty("修改时间")
+  @ApiModelProperty("开始时间")
   @TableField(value = "start_Time")
   private LocalDateTime startTime;
 
@@ -51,7 +53,7 @@ public class TenProducts {
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-  @ApiModelProperty("修改时间")
+  @ApiModelProperty("结束时间")
   @TableField(value = "end_Time")
   private LocalDateTime endTime;
 
@@ -87,107 +89,5 @@ public class TenProducts {
   @TableField(value = "link")
   private String link;
 
-  public Integer getId() {
-    return id;
-  }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
-
-  public String getImgs() {
-    return imgs;
-  }
-
-  public void setImgs(String imgs) {
-    this.imgs = imgs;
-  }
-
-  public LocalDateTime getStartTime() {
-    return startTime;
-  }
-
-  public void setStartTime(LocalDateTime startTime) {
-    this.startTime = startTime;
-  }
-
-  public LocalDateTime getEndTime() {
-    return endTime;
-  }
-
-  public void setEndTime(LocalDateTime endTime) {
-    this.endTime = endTime;
-  }
-
-  public LocalDateTime getCreateTime() {
-    return createTime;
-  }
-
-  public void setCreateTime(LocalDateTime createTime) {
-    this.createTime = createTime;
-  }
-
-  public Integer getCreateBy() {
-    return createBy;
-  }
-
-  public void setCreateBy(Integer createBy) {
-    this.createBy = createBy;
-  }
-
-  public LocalDateTime getUpdateTiem() {
-    return updateTiem;
-  }
-
-  public void setUpdateTiem(LocalDateTime updateTiem) {
-    this.updateTiem = updateTiem;
-  }
-
-  public Integer getUpdateBy() {
-    return updateBy;
-  }
-
-  public void setUpdateBy(Integer updateBy) {
-    this.updateBy = updateBy;
-  }
-
-  public Integer getType() {
-    return type;
-  }
-
-  public void setType(Integer type) {
-    this.type = type;
-  }
-
-  public String getLink() {
-    return link;
-  }
-
-  public void setLink(String link) {
-    this.link = link;
-  }
 }
