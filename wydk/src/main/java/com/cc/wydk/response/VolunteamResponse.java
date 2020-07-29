@@ -67,7 +67,7 @@ public class VolunteamResponse {
     private String updateBy;
 
     @ApiModelProperty("总人数")
-    private Integer userCount;
+    private Integer teamCount;
 
 
 }

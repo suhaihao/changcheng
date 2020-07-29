@@ -36,7 +36,7 @@ public interface VolunteerTeamMapper extends BaseMapper<VolunteerTeam> {
      * @param page
      * @return
      */
-    @Select(value = "select t.*,count(u.id) user_count from volunteer_team t left join user u on t.id=u.team  where t.team_name like #{teameName} group by t.id")
+    @Select(value = "select t.*,count(u.id) team_count from volunteer_team t left join user u on t.id=u.team  where t.team_name like #{teameName} group by t.id")
     IPage<VolunteamResponse> getPageList(Page page, @Param("teameName") String teameName);
 
     /**
@@ -45,6 +45,6 @@ public interface VolunteerTeamMapper extends BaseMapper<VolunteerTeam> {
      * @param page
      * @return
      */
-    @Select(value = "select t.*,count(u.id) user_count from volunteer_team t left join user u on t.id=u.team  group by t.id")
+    @Select(value = "select t.*,count(u.id) team_count from volunteer_team t left join user u on t.id=u.team  group by t.id")
     IPage<VolunteamResponse> getPageList(Page page);
 }
