@@ -6,6 +6,7 @@ import com.cc.wydk.entity.VolunteerTeam;
 import com.cc.wydk.request.VolunteerTeamDetailRequest;
 import com.cc.wydk.request.VolunteerTeamPageListRequest;
 import com.cc.wydk.respond.VolunteerTeamResponse;
+import com.cc.wydk.response.VolunteamResponse;
 
 public interface VolunteerTeamService extends IService<VolunteerTeam> {
 
@@ -23,7 +24,7 @@ public interface VolunteerTeamService extends IService<VolunteerTeam> {
      * @param request
      * @return
      */
-    IPage<VolunteerTeam> getPageList(VolunteerTeamPageListRequest request);
+    IPage<VolunteamResponse> getPageList(VolunteerTeamPageListRequest request);
 
     /**
      * 根据id获取唯一数据

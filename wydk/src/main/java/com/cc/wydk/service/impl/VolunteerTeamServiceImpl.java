@@ -9,6 +9,7 @@ import com.cc.wydk.mapper.VolunteerTeamMapper;
 import com.cc.wydk.request.VolunteerTeamDetailRequest;
 import com.cc.wydk.request.VolunteerTeamPageListRequest;
 import com.cc.wydk.respond.VolunteerTeamResponse;
+import com.cc.wydk.response.VolunteamResponse;
 import com.cc.wydk.service.VolunteerTeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,13 +39,13 @@ public class VolunteerTeamServiceImpl extends ServiceImpl<VolunteerTeamMapper, V
     }
 
     @Override
-    public IPage<VolunteerTeam> getPageList(VolunteerTeamPageListRequest request) {
-        Page<VolunteerTeam> page = new Page<>(request.getPageIndex(), request.getPageSize());
-        QueryWrapper<VolunteerTeam> queryWrapperUser = new QueryWrapper();
+    public IPage<VolunteamResponse> getPageList(VolunteerTeamPageListRequest request) {
+        Page<VolunteamResponse> page = new Page<>(request.getPageIndex(), request.getPageSize());
         if (!StringUtils.isEmpty(request.getTeamName())) {
-            queryWrapperUser.like("team_name", "%" + request.getTeamName() + "%");
+            return volunteerTeamMapper.getPageList(page, "%" + request.getTeamName() + "%");
+        } else {
+            return volunteerTeamMapper.getPageList(page);
         }
-        return volunteerTeamMapper.selectPage(page, queryWrapperUser);
     }
 
     @Override

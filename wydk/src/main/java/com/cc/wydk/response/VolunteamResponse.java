@@ -1,4 +1,4 @@
-package com.cc.wydk.respond;
+package com.cc.wydk.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -13,11 +13,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
-@ApiModel("团队排行返回体")
-public class VolunteerTeamResponse {
-
-    @ApiModelProperty("排行")
-    private Integer rowNum;
+@ApiModel("团队列表返回体")
+public class VolunteamResponse {
 
     @ApiModelProperty("唯一id")
     private Integer id;
@@ -43,8 +40,11 @@ public class VolunteerTeamResponse {
     @ApiModelProperty("团队名称")
     private String teamName;
 
-    @ApiModelProperty("团队人数")
-    private Integer teamCount;
+    @ApiModelProperty("队伍标语")
+    private String teamSlogan;
+
+    @ApiModelProperty("队伍介绍")
+    private String teamIntro;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -65,6 +65,9 @@ public class VolunteerTeamResponse {
 
     @ApiModelProperty("修改人")
     private String updateBy;
+
+    @ApiModelProperty("总人数")
+    private Integer userCount;
 
 
 }

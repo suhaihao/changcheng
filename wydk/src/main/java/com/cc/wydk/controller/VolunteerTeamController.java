@@ -6,6 +6,7 @@ import com.cc.wydk.entity.VolunteerOrder;
 import com.cc.wydk.entity.VolunteerTeam;
 import com.cc.wydk.request.*;
 import com.cc.wydk.respond.VolunteerTeamResponse;
+import com.cc.wydk.response.VolunteamResponse;
 import com.cc.wydk.service.VolunteerTeamService;
 import com.cc.wydk.utils.UserUtils;
 import io.swagger.annotations.Api;
@@ -38,7 +39,7 @@ public class VolunteerTeamController {
 
     @PostMapping("/getByPageList")
     @ApiOperation(value = "获取团队")
-    public IPage<VolunteerTeam> getByPageList(@RequestBody VolunteerTeamPageListRequest request) {
+    public IPage<VolunteamResponse> getByPageList(@RequestBody VolunteerTeamPageListRequest request) {
         return volunteerTeamService.getPageList(request);
     }
 

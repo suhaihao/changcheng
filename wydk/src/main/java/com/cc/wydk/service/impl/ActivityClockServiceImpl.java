@@ -56,6 +56,11 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
     @Override
     @Transient
     public Boolean saveActivityClock(ActivityClockSignInRequest request) {
+
+        ActivityNotice activityNotice = activityNoticeMapper.selectById(request.getActivityId());
+        if (null == activityNotice) {
+            throw new BusinessInterfaceException("活动不存在");
+        }
         ActivityClock activityClock = new ActivityClock();
         BeanUtils.copyProperties(request, activityClock);
         activityClock.setStartTime(LocalDateTime.now());
