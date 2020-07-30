@@ -42,7 +42,7 @@ public class VolunteerTeamServiceImpl extends ServiceImpl<VolunteerTeamMapper, V
     public IPage<VolunteamResponse> getPageList(VolunteerTeamPageListRequest request) {
         Page<VolunteamResponse> page = new Page<>(request.getPageIndex(), request.getPageSize());
         if (!StringUtils.isEmpty(request.getTeamName())) {
-            return volunteerTeamMapper.getPageList(page, "%" + request.getTeamName() + "%");
+            return volunteerTeamMapper.getPageteamList(page, "%" + request.getTeamName() + "%");
         } else {
             return volunteerTeamMapper.getPageList(page);
         }

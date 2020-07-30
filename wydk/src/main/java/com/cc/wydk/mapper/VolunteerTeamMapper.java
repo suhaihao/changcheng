@@ -37,7 +37,7 @@ public interface VolunteerTeamMapper extends BaseMapper<VolunteerTeam> {
      * @return
      */
     @Select(value = "select t.*,count(u.id) team_count from volunteer_team t left join user u on t.id=u.team  where t.team_name like #{teameName} group by t.id")
-    IPage<VolunteamResponse> getPageList(Page page, @Param("teameName") String teameName);
+    IPage<VolunteamResponse> getPageteamList(Page page, @Param("teameName") String teameName);
 
     /**
      * 分页获取列表带用户信息
