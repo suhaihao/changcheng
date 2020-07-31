@@ -62,6 +62,13 @@ public class UserController {
         return userService.getRankingUser(request);
     }
 
+    @PostMapping("/getPageList")
+    @ApiOperation(value = "分页获取用户")
+    public IPage<User> getPageList(@RequestBody UserPageListRequest request) {
+        Page<User> page = new Page<>(request.getPageIndex(), request.getPageSize());
+        return userService.page(page);
+    }
+
     @PostMapping("/updateUser")
     @ApiOperation(value = "修改用户信息")
     public Boolean updateUser(@RequestBody UserUpdateRequest request) {
