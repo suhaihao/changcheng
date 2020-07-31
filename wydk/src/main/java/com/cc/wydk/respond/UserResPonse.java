@@ -95,5 +95,8 @@ public class UserResPonse {
     @ApiModelProperty("活动打开次数")
     private Integer activitySignCount;
 
+    @ApiModelProperty("活动时长")
+    private Integer service;
+
 
 }
