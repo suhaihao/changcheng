@@ -12,9 +12,19 @@ import java.util.Map;
 
 public interface ArticeMessageMapper extends BaseMapper<ArticeMessage> {
 
-    @Select("select m.*,u.fullname,u.nickname,u.head_img from artice_message m,user u where m.user_id=u.id and m.type=#{map.type} and m.artice_id=#{map.artice_id} order by create_time desc")
-    IPage<ArticeMessagePageResoinse> getArticeMessagePageList(Page page, @Param("map") Map<String, Object> map);
 
-    @Select("select m.*,u.fullname,u.nickname,u.head_img from artice_message m,user u where m.user_id=u.id and m.type=#{map.type} and m.artice_id=#{map.artice_id} and m.user_id=#{userid} order by create_time desc")
+    @Select({"<script>",
+            "select m.*,u.fullname,u.nickname,u.head_img from artice_message m,user u where m.user_id=u.id ",
+            "<when test='map.type!=null'>",
+            "and m.type=#{map.type}",
+            "</when>",
+            "<when test='map.artice_id!=null'>",
+            " and m.artice_id=#{map.artice_id}",
+            "</when>",
+            "<when test='user!=null'>",
+            " and m.user_id=#{userid}",
+            "</when>",
+            " order by create_time desc",
+            "</script>"})
     IPage<ArticeMessagePageResoinse> getArticeMessageUserPageList(Page page, @Param("map") Map<String, Object> map, @Param("user") Integer userid);
 }

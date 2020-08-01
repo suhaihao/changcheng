@@ -32,23 +32,16 @@ public class ArticeMessageServiceImpl extends ServiceImpl<ArticeMessageMapper, A
     public IPage<ArticeMessagePageResoinse> getPageList(ArticeMessagePageListRequest request) {
         Page<ArticeMessagePageResoinse> page = new Page<>(request.getPageIndex(), request.getPageSize());
         Map<String, Object> map = new HashMap<>();
-        boolean isCline = false;
         if (null != request.getType()) {
             map.put("type", request.getType());
-            isCline = true;
         }
         if (null != request.getArticeId()) {
             map.put("artice_id", request.getArticeId());
-            isCline = true;
         }
-        if (request.getIsUser() && isCline) {
+        if (request.getIsUser()) {
             return articeMessageMapper.getArticeMessageUserPageList(page, map, UserUtils.getUserId());
-        } else if (isCline) {
-            return articeMessageMapper.getArticeMessagePageList(page, map);
         } else {
-            Page<ArticeMessage> pageHD = new Page<>(request.getPageIndex(), request.getPageSize());
-            QueryWrapper queryWrapper = new QueryWrapper();
-            return articeMessageMapper.selectPage(pageHD, queryWrapper);
+            return articeMessageMapper.getArticeMessageUserPageList(page, map, null);
         }
 
     }
