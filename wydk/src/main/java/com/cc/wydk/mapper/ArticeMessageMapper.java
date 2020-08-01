@@ -24,6 +24,9 @@ public interface ArticeMessageMapper extends BaseMapper<ArticeMessage> {
             "<when test='user!=null'>",
             " and m.user_id=#{userid}",
             "</when>",
+            "<when test='map.is_examine != null'>",
+            " and m.is_Examine=#{map.is_examine}",
+            "</when>",
             " order by create_time desc",
             "</script>"})
     IPage<ArticeMessagePageResoinse> getArticeMessageUserPageList(Page page, @Param("map") Map<String, Object> map, @Param("user") Integer userid);

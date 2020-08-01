@@ -38,6 +38,9 @@ public class ArticeMessageServiceImpl extends ServiceImpl<ArticeMessageMapper, A
         if (null != request.getArticeId()) {
             map.put("artice_id", request.getArticeId());
         }
+        if (null != request.getIsExamine()) {
+            map.put("is_examine", request.getIsExamine());
+        }
         if (request.getIsUser()) {
             return articeMessageMapper.getArticeMessageUserPageList(page, map, UserUtils.getUserId());
         } else {

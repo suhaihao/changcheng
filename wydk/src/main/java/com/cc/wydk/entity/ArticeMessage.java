@@ -50,5 +50,10 @@ public class ArticeMessage {
     @TableField(value = "create_time")
     private LocalDateTime createTime;
 
+    @ApiModelProperty("审核标志")
+    @TableField(value = "is_examine")
+    private Integer isExamine;
+
+
 
 }

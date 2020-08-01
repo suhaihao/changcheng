@@ -25,4 +25,7 @@ public class ArticeMessageUpdateRequest {
     @ApiModelProperty("类型")
     private Integer type;
 
+    @ApiModelProperty("审核")
+    private Integer isExamine;
+
 }
