@@ -3,7 +3,9 @@ package com.cc.wydk.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
+@Data
 @ApiModel("文明课堂录入请求体")
 public class CivilizedClassroomAddRequest {
 
@@ -22,44 +24,11 @@ public class CivilizedClassroomAddRequest {
     @ApiModelProperty("likes")
     private String likes;
 
-    public String getType() {
-        return type;
-    }
+    @ApiModelProperty("内容")
+    private String content;
 
-    public void setType(String type) {
-        this.type = type;
-    }
+    @ApiModelProperty("视频")
+    private String video;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public String getImgs() {
-        return imgs;
-    }
-
-    public void setImgs(String imgs) {
-        this.imgs = imgs;
-    }
-
-    public String getLikes() {
-        return likes;
-    }
-
-    public void setLikes(String likes) {
-        this.likes = likes;
-    }
 
 }

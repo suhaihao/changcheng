@@ -190,6 +190,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
             queryWrapper.eq("status", request.getStatus());
         }
         queryWrapper.groupBy("activity_id");
+        queryWrapper.orderByAsc("create_time");
         queryWrapper.select("activity_id");
         List<ActivityClock> activityClocks = activityClockMapper.selectList(queryWrapper);
         if (!CollectionUtils.isEmpty(activityClocks)) {
@@ -213,7 +214,7 @@ public class ActivityClockServiceImpl extends ServiceImpl<ActivityClockMapper, A
             queryWrapper.eq("status", request.getStatus());
         }
         queryWrapper.groupBy("activity_id");
-        queryWrapper.select("id", "activity_id", "user_id", "start_time", "end_time", "create_time", "update_time", "sum(duration) duration", "status", "sign_up", "longitude", "latitude", "start_photo", "end_photo");
+        queryWrapper.select("id", "activity_id", "user_id", "start_time", "end_time", "create_time", "update_time", "sum(duration) duration", "status", "sign_up", "longitude", "latitude", "start_photo", "end_photo","is_check");
         List<ActivityClock> activityClocks = activityClockMapper.selectList(queryWrapper);
         if (!CollectionUtils.isEmpty(activityClocks)) {
             List<Integer> collect = activityClocks.stream().map(ActivityClock::getActivityId).collect(Collectors.toList());
