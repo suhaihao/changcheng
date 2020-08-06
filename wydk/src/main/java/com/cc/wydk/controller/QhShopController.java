@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,6 +53,12 @@ public class QhShopController {
             qhShop.setCreateTime(LocalDateTime.now());
         }
         return qhShopService.saveOrUpdate(qhShop);
+    }
+
+    @PostMapping("/del")
+    @ApiOperation(value = "删除商户")
+    public Boolean getByPageList(@Valid @RequestBody QhShopDetailRequest request) {
+        return qhShopService.removeById(request.getId());
     }
 
 
